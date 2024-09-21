@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_tipo_ejercicios"
+            android:icon="@drawable/ic_list"
+            android:title="Tipo de Ejercicio" />
+
+        <item
+            android:id="@+id/nav_ejercicios"
+            android:icon="@drawable/ic_fitness_center"
+            android:title="Ejercicios" />
+
+        <item
+            android:id="@+id/nav_clientes"
+            android:icon="@drawable/ic_group"
+            android:title="Clientes" />
+
+        <item
+            android:id="@+id/nav_rutinas"
+            android:icon="@drawable/ic_timer"
+            android:title="Rutinas" />
+
+        <item
+            android:id="@+id/nav_planes"
+            android:icon="@drawable/ic_calendar"
+            android:title="Planes" />
+
+    </group>
+
+</menu>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/btn_ejercicio"
+        android:icon="@drawable/ic_fitness_center"
+        android:title="Ejercicios" />
+
+    <item
+        android:id="@+id/btn_cliente"
+        android:icon="@drawable/ic_group"
+        android:title="Clientes" />
+
+    <item
+        android:id="@+id/btn_rutina"
+        android:icon="@drawable/ic_timer"
+        android:title="Rutinas" />
+
+    <item
+        android:id="@+id/btn_plan_rutina"
+        android:icon="@drawable/ic_calendar"
+        android:title="Planes" />
+
+</menu>
