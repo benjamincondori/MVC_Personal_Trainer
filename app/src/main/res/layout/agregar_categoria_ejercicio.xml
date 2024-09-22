@@ -14,7 +14,7 @@
         android:id="@+id/toolbar_tipo_ejercicio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Agregar Nuevo Tipo"
+        app:title="Nueva Categoría"
         app:titleTextColor="@color/white"
         android:background="@color/primaryColor" />
 
@@ -26,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:hint="Tipo Ejercicio">
+        android:hint="Nombre">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"

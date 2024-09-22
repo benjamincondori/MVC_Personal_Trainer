@@ -87,7 +87,7 @@ public class MCategoriaEjercicio {
     }
 
     // Obtener todos los tipos de ejercicios
-    public List<CategoriaEjercicio> listarCategoriaEjercicio() {
+    public List<CategoriaEjercicio> obtenerTodasLasCategorias() {
         SQLiteDatabase dbHelper = null;
         Cursor cursor = null;
         List<CategoriaEjercicio> listadoTiposEjercicios = new ArrayList<>();

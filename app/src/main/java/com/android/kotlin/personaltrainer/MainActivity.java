@@ -9,7 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.android.kotlin.personaltrainer.view.ClientesFragment;
-import com.android.kotlin.personaltrainer.view.EjerciciosFragment;
+import com.android.kotlin.personaltrainer.view.Ejercicio.VEjercicio;
 import com.android.kotlin.personaltrainer.view.PlanesFragment;
 import com.android.kotlin.personaltrainer.view.RutinasFragment;
 import com.android.kotlin.personaltrainer.view.CategoriaEjercicio.VCategoriaEjercicio;
@@ -46,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new EjerciciosFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new VEjercicio()).commit();
             navigationView.setCheckedItem(R.id.nav_ejercicios);
         }
 
-        replaceFragment(new EjerciciosFragment());
+        replaceFragment(new VEjercicio());
         getSupportActionBar().setTitle("Ejercicios");
 
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_ejercicios:
             case R.id.btn_ejercicio:
-                replaceFragment(new EjerciciosFragment());
+                replaceFragment(new VEjercicio());
                 getSupportActionBar().setTitle("Ejercicios");
                 break;
             case R.id.nav_clientes:

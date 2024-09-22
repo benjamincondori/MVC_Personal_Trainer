@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import com.android.kotlin.personaltrainer.R;
 import com.android.kotlin.personaltrainer.controller.CCategoriaEjercicio;
 import com.android.kotlin.personaltrainer.model.CategoriaEjercicio.CategoriaEjercicio;
+import com.android.kotlin.personaltrainer.view.utils.ToolbarUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -39,19 +40,7 @@ public class VEditarCategoriaEjercicio extends AppCompatActivity {
         this.eliminarButton = findViewById(R.id.fab_eliminar);
         this.toolbar = findViewById(R.id.toolbar_tipo_ejercicio);
 
-        setSupportActionBar(toolbar);
-
-        // Habilita el botón de navegación hacia atrás
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-            // Cambia el color del icono de navegación
-            Drawable navigationIcon = toolbar.getNavigationIcon();
-            if (navigationIcon != null) {
-                navigationIcon.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP);
-            }
-        }
+        ToolbarUtils.setupToolbar(this, toolbar);
 
         this.getAndSetIntentData();
 
@@ -86,8 +75,6 @@ public class VEditarCategoriaEjercicio extends AppCompatActivity {
             this.id = Integer.parseInt(getIntent().getStringExtra("id"));
             String nombre = getIntent().getStringExtra("nombre");
             String descripcion = getIntent().getStringExtra("descripcion");
-
-//            TipoEjercicio tipoEjercicio = new TipoEjercicio(id, nombre, descripcion);
 
             // Setting intent data
             this.nombreInput.getEditText().setText(nombre);

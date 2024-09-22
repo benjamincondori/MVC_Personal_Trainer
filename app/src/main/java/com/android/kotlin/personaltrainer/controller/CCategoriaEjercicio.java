@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CCategoriaEjercicio {
 
-    private final MCategoriaEjercicio MCategoriaEjercicio;
+    private final MCategoriaEjercicio modeloCategoriaEjercicio;
     private VCategoriaEjercicio viewListar;
     private VAgregarCategoriaEjercicio viewAgregar;
     private VEditarCategoriaEjercicio viewEditar;
@@ -20,12 +20,12 @@ public class CCategoriaEjercicio {
     // Constructor para Fragments
     public CCategoriaEjercicio(VCategoriaEjercicio fragment) {
         this.viewListar = fragment;
-        this.MCategoriaEjercicio = new MCategoriaEjercicio(fragment.getContext());
+        this.modeloCategoriaEjercicio = new MCategoriaEjercicio(fragment.getContext());
     }
 
     // Constructor para activities
     public CCategoriaEjercicio(Context context) {
-        this.MCategoriaEjercicio = new MCategoriaEjercicio(context);
+        this.modeloCategoriaEjercicio = new MCategoriaEjercicio(context);
 
         if (context instanceof VAgregarCategoriaEjercicio) {
             this.viewAgregar = (VAgregarCategoriaEjercicio) context;
@@ -35,25 +35,25 @@ public class CCategoriaEjercicio {
     }
 
     public void guardarCategoriaEjercicio(CategoriaEjercicio categoriaEjercicio) {
-        long resultado = this.MCategoriaEjercicio.insertarCategoriaEjercicio(categoriaEjercicio);
+        long resultado = this.modeloCategoriaEjercicio.insertarCategoriaEjercicio(categoriaEjercicio);
         this.viewAgregar.mostrarMensaje(resultado > 0 ? "Categoria de ejercicio guardado" : "Error al guardar la categoria de ejercicio");
         this.viewAgregar.finish();
     }
 
     public void actualizarCategoriaEjercicio(CategoriaEjercicio categoriaEjercicio) {
-        int resultado = this.MCategoriaEjercicio.actualizarCategoriaEjercicio(categoriaEjercicio);
+        int resultado = this.modeloCategoriaEjercicio.actualizarCategoriaEjercicio(categoriaEjercicio);
         this.viewEditar.mostrarMensaje(resultado > 0 ? "Categoria de ejercicio actualizado" : "Error al actualizar la categoria de ejercicio");
         this.viewEditar.finish();
     }
 
     public void eliminarCategoriaEjercicio(int idCategoriaEjercicio) {
-        int resultado = this.MCategoriaEjercicio.eliminarCategoriaEjercicio(idCategoriaEjercicio);
+        int resultado = this.modeloCategoriaEjercicio.eliminarCategoriaEjercicio(idCategoriaEjercicio);
         this.viewEditar.mostrarMensaje(resultado > 0 ? "Categoria de ejercicio eliminado" : "Error al eliminar la categoria de ejercicio");
         this.viewEditar.finish();
     }
 
     public void cargarCategoriaEjercicios() {
-        List<CategoriaEjercicio> listado = this.MCategoriaEjercicio.listarCategoriaEjercicio();
+        List<CategoriaEjercicio> listado = this.modeloCategoriaEjercicio.obtenerTodasLasCategorias();
         this.viewListar.cargarCategoriaEjercicios(listado);
     }
 

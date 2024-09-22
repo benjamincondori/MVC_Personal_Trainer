@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/primaryColor"
-            app:title="Agregar Nuevo Tipo"
+            app:title="Editar Categoría"
             app:titleTextColor="@color/white" />
 
         <!-- Input Edit Nombre -->
@@ -32,7 +32,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="20dp"
-            android:hint="Tipo Ejercicio">
+            android:hint="Nombre">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"

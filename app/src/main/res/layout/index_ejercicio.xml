@@ -6,11 +6,11 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.CategoriaEjercicio.VCategoriaEjercicio">
+    tools:context=".view.Ejercicio.VEjercicio">
 
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_tipo_ejercicios"
+        android:id="@+id/recyclerview_ejercicio"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="12dp" />
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="No hay tipos de ejercicios"
+            android:text="No hay ejercicios"
             android:textColor="@android:color/darker_gray"
             android:textSize="18dp"
             android:textStyle="italic" />
@@ -42,7 +42,7 @@
 
     <!-- FloatingActionButton -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_add_tipo"
+        android:id="@+id/btn_agregar_ejercicio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"

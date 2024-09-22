@@ -65,8 +65,8 @@ public class Ejercicio {
         return urlVideo;
     }
 
-    public void setUrlVideo(String urlImagen) {
-        this.urlVideo = urlImagen;
+    public void setUrlVideo(String urlVideo) {
+        this.urlVideo = urlVideo;
     }
 
     public int getIdCategoria() {

@@ -46,10 +46,6 @@ public class CategoriaEjercicio {
 
     @Override
     public String toString() {
-        return "{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                '}';
+        return this.getNombre();
     }
 }

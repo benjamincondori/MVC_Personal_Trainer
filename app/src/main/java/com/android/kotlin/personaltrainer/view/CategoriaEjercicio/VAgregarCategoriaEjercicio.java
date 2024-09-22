@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import com.android.kotlin.personaltrainer.R;
 import com.android.kotlin.personaltrainer.controller.CCategoriaEjercicio;
 import com.android.kotlin.personaltrainer.model.CategoriaEjercicio.CategoriaEjercicio;
+import com.android.kotlin.personaltrainer.view.utils.ToolbarUtils;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class VAgregarCategoriaEjercicio extends AppCompatActivity {
@@ -35,19 +36,7 @@ public class VAgregarCategoriaEjercicio extends AppCompatActivity {
         this.guardarButton = findViewById(R.id.guardar_button);
         this.toolbar = findViewById(R.id.toolbar_tipo_ejercicio);
 
-        setSupportActionBar(toolbar);
-
-        // Habilita el botón de navegación hacia atrás
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-            // Cambia el color del icono de navegación
-            Drawable navigationIcon = toolbar.getNavigationIcon();
-            if (navigationIcon != null) {
-                navigationIcon.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_ATOP);
-            }
-        }
+        ToolbarUtils.setupToolbar(this, toolbar);
 
         this.guardarButton.setOnClickListener(view -> {
             String nombre = nombreInput.getEditText().getText().toString().trim();
