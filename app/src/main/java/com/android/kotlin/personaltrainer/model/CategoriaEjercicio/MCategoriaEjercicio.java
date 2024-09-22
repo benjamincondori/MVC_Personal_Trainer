@@ -75,6 +75,7 @@ public class MCategoriaEjercicio {
             dbHelper = db.getWritableDatabase();
             String whereClause = DatabaseHelper.COLUMN_ID + " = ?";
             String[] whereArgs = {String.valueOf(id)};
+
             resultado = dbHelper.delete(DatabaseHelper.TABLE_CATEGORIA_EJERCICIO, whereClause, whereArgs);
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,11 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -20,17 +16,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.android.kotlin.personaltrainer.R;
 import com.android.kotlin.personaltrainer.controller.CCliente;
-import com.android.kotlin.personaltrainer.controller.CEjercicio;
-import com.android.kotlin.personaltrainer.model.CategoriaEjercicio.CategoriaEjercicio;
 import com.android.kotlin.personaltrainer.model.Cliente.Cliente;
-import com.android.kotlin.personaltrainer.model.Ejercicio.Ejercicio;
 import com.android.kotlin.personaltrainer.view.utils.ToolbarUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.MessageFormat;
 import java.util.Calendar;
-import java.util.List;
 
 public class VAgregarCliente extends AppCompatActivity {
 
@@ -120,7 +111,7 @@ public class VAgregarCliente extends AppCompatActivity {
         this.telefonoInput = findViewById(R.id.telefono_input);
         this.fechaNacimientoInput = findViewById(R.id.fecha_nacimiento_input);
         this.guardarButton = findViewById(R.id.guardar_button);
-        this.toolbar = findViewById(R.id.toolbar_ejercicio);
+        this.toolbar = findViewById(R.id.toolbar_cliente);
         this.btnSelectImage = findViewById(R.id.btn_subir_imagen);
         this.btnClearImage = findViewById(R.id.btn_remover_imagen);
         this.mediaPreview = findViewById(R.id.media_preview);

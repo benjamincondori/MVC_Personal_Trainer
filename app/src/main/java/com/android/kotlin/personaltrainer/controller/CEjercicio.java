@@ -52,8 +52,8 @@ public class CEjercicio {
     }
 
     public void eliminarEjercicio(int idEjercicio) {
-        int resultado = this.modeloCategoriaEjercicio.eliminarCategoriaEjercicio(idEjercicio);
-        this.viewEditar.mostrarMensaje(resultado > 0 ? "Categoria de ejercicio eliminado" : "Error al eliminar el ejercicio");
+        int resultado = this.modeloEjercicio.eliminarEjercicio(idEjercicio);
+        this.viewEditar.mostrarMensaje(resultado > 0 ? "Ejercicio eliminado" : "Error al eliminar el ejercicio");
         this.viewEditar.finish();
     }
 

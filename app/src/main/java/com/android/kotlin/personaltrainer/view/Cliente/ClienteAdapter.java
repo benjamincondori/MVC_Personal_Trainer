@@ -68,7 +68,9 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ClienteV
             intent.putExtra("nombre", cliente.getNombre());
             intent.putExtra("apellido", cliente.getApellido());
             intent.putExtra("email", cliente.getEmail());
+            intent.putExtra("genero", cliente.getGenero());
             intent.putExtra("telefono", cliente.getTelefono());
+            intent.putExtra("fechaNacimiento", cliente.getFechaNacimiento());
             intent.putExtra("foto", cliente.getFoto());
             context.startActivity(intent);
         });

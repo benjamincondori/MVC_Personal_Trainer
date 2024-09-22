@@ -40,13 +40,13 @@ public class CCliente {
 
     public void actualizarCliente(Cliente cliente) {
         int resultado = this.modeloCliente.actualizarCliente(cliente);
-//        this.viewEditar.mostrarMensaje(resultado > 0 ? "Cliente actualizado" : "Error al actualizar el cliente");
+        this.viewEditar.mostrarMensaje(resultado > 0 ? "Cliente actualizado" : "Error al actualizar el cliente");
         this.viewEditar.finish();
     }
 
     public void eliminarCliente(int idCliente) {
         int resultado = this.modeloCliente.eliminarCliente(idCliente);
-//        this.viewEditar.mostrarMensaje(resultado > 0 ? "Cliente eliminado" : "Error al eliminar el cliente");
+        this.viewEditar.mostrarMensaje(resultado > 0 ? "Cliente eliminado" : "Error al eliminar el cliente");
         this.viewEditar.finish();
     }
 

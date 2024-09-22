@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.kotlin.personaltrainer.view.Cliente.VCliente;
 import com.android.kotlin.personaltrainer.view.Ejercicio.VEjercicio;
+import com.android.kotlin.personaltrainer.view.EstadoFisico.VEstadoFisico;
 import com.android.kotlin.personaltrainer.view.PlanesFragment;
 import com.android.kotlin.personaltrainer.view.RutinasFragment;
 import com.android.kotlin.personaltrainer.view.CategoriaEjercicio.VCategoriaEjercicio;
@@ -20,14 +21,14 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-    BottomNavigationView bottomNavigationView;
+//    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+//        bottomNavigationView = findViewById(R.id.bottom_navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.navigation_drawer);
@@ -47,11 +48,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new VEjercicio()).commit();
-            navigationView.setCheckedItem(R.id.nav_ejercicios);
+            navigationView.setCheckedItem(R.id.nav_clientes);
         }
 
-        replaceFragment(new VEjercicio());
-        getSupportActionBar().setTitle("Ejercicios");
+        replaceFragment(new VCliente());
+        getSupportActionBar().setTitle("Clientes");
 
         navigationView.setNavigationItemSelectedListener(item -> {
             handleNavigation(item.getItemId());
@@ -59,19 +60,14 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        bottomNavigationView.setBackground(null);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            handleNavigation(item.getItemId());
-            return true;
-        });
+//        bottomNavigationView.setBackground(null);
+//        bottomNavigationView.setOnItemSelectedListener(item -> {
+//            handleNavigation(item.getItemId());
+//            return true;
+//        });
     }
 
     private void replaceFragment(Fragment fragment) {
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.fragment_container, fragment);
-//        fragmentTransaction.commit();
-
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout, fragment)
                 .commit();
@@ -84,22 +80,22 @@ public class MainActivity extends AppCompatActivity {
                 getSupportActionBar().setTitle("Categoría de Ejercicios");
                 break;
             case R.id.nav_ejercicios:
-            case R.id.btn_ejercicio:
                 replaceFragment(new VEjercicio());
                 getSupportActionBar().setTitle("Ejercicios");
                 break;
             case R.id.nav_clientes:
-            case R.id.btn_cliente:
                 replaceFragment(new VCliente());
                 getSupportActionBar().setTitle("Clientes");
                 break;
+            case R.id.nav_estado_fisico:
+                replaceFragment(new VEstadoFisico());
+                getSupportActionBar().setTitle("Estado Físico");
+                break;
             case R.id.nav_rutinas:
-            case R.id.btn_rutina:
                 replaceFragment(new RutinasFragment());
                 getSupportActionBar().setTitle("Rutinas");
                 break;
             case R.id.nav_planes:
-            case R.id.btn_plan_rutina:
                 replaceFragment(new PlanesFragment());
                 getSupportActionBar().setTitle("Planes de Rutina");
                 break;

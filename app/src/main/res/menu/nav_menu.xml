@@ -1,36 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn = "navigation_view">
+    tools:showIn="navigation_view">
 
-    <group
-        android:checkableBehavior="single">
 
-        <item
-            android:id="@+id/nav_tipo_ejercicios"
-            android:icon="@drawable/ic_list"
-            android:title="Categoría de Ejercicio" />
+    <item android:title="Gestión de Clientes">
 
-        <item
-            android:id="@+id/nav_ejercicios"
-            android:icon="@drawable/ic_fitness_center"
-            android:title="Ejercicios" />
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_clientes"
+                    android:icon="@drawable/ic_group"
+                    android:title="Clientes" />
 
-        <item
-            android:id="@+id/nav_clientes"
-            android:icon="@drawable/ic_group"
-            android:title="Clientes" />
+                <item
+                    android:id="@+id/nav_estado_fisico"
+                    android:icon="@drawable/ic_person"
+                    android:title="Estado Físico" />
+            </group>
+        </menu>
+    </item>
 
-        <item
-            android:id="@+id/nav_rutinas"
-            android:icon="@drawable/ic_timer"
-            android:title="Rutinas" />
+    <item android:title="Gestión de Ejercicios">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_tipo_ejercicios"
+                    android:icon="@drawable/ic_list"
+                    android:title="Categoría de Ejercicio" />
 
-        <item
-            android:id="@+id/nav_planes"
-            android:icon="@drawable/ic_calendar"
-            android:title="Planes" />
+                <item
+                    android:id="@+id/nav_ejercicios"
+                    android:icon="@drawable/ic_fitness_center"
+                    android:title="Ejercicios" />
+            </group>
+        </menu>
+    </item>
 
-    </group>
+    <item android:title="Gestión de Rutinas">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_rutinas"
+                    android:icon="@drawable/ic_timer"
+                    android:title="Rutinas" />
 
+                <item
+                    android:id="@+id/nav_planes"
+                    android:icon="@drawable/ic_calendar"
+                    android:title="Planes" />
+            </group>
+        </menu>
+    </item>
 </menu>

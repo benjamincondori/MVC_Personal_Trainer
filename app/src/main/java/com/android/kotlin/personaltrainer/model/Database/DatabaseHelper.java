@@ -87,7 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_ESTATURA + " DECIMAL(5,2) NOT NULL," +
             COLUMN_PESO + " DECIMAL(5,2) NOT NULL," +
             COLUMN_FECHA + " TEXT NOT NULL," +
-            COLUMN_ENFERMEDADES + " TEXT NOT NULL," +
+            COLUMN_ENFERMEDADES + " TEXT," +
             COLUMN_ID_CLIENTE + " INTEGER NOT NULL," +
             "FOREIGN KEY (" + COLUMN_ID_CLIENTE + ") REFERENCES " + TABLE_CLIENTE + "(" + COLUMN_ID + ") ON DELETE CASCADE" +
             ");";
@@ -134,8 +134,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_SERIES + " INTEGER NOT NULL," +
             COLUMN_REPETICIONES + " INTEGER NOT NULL," +
             COLUMN_DESCANSO_SEGUNDOS + " INTEGER," +
-            COLUMN_ID_EJERCICIO + " INTEGER," +
-            COLUMN_ID_RUTINA + " INTEGER," +
+            COLUMN_ID_EJERCICIO + " INTEGER NOT NULL," +
+            COLUMN_ID_RUTINA + " INTEGER NOT NULL," +
             "PRIMARY KEY (" + COLUMN_ID_EJERCICIO + ", " + COLUMN_ID_RUTINA + ")," +
             "FOREIGN KEY (" + COLUMN_ID_EJERCICIO + ") REFERENCES " + TABLE_EJERCICIO + "(" + COLUMN_ID + ") ON DELETE CASCADE," +
             "FOREIGN KEY (" + COLUMN_ID_RUTINA + ") REFERENCES " + TABLE_RUTINA + "(" + COLUMN_ID + ") ON DELETE CASCADE" +
@@ -143,16 +143,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_CLIENTE_OBJETIVO = "CREATE TABLE " + TABLE_CLIENTE_OBJETIVO + " (" +
             COLUMN_ESTADO + " TEXT NOT NULL," +
-            COLUMN_ID_CLIENTE + " INTEGER," +
-            COLUMN_ID_OBJETIVO + " INTEGER," +
+            COLUMN_ID_CLIENTE + " INTEGER NOT NULL," +
+            COLUMN_ID_OBJETIVO + " INTEGER NOT NULL," +
             "PRIMARY KEY (" + COLUMN_ID_CLIENTE + ", " + COLUMN_ID_OBJETIVO + ")," +
             "FOREIGN KEY (" + COLUMN_ID_CLIENTE + ") REFERENCES " + TABLE_CLIENTE + "(" + COLUMN_ID + ") ON DELETE CASCADE," +
             "FOREIGN KEY (" + COLUMN_ID_OBJETIVO + ") REFERENCES " + TABLE_OBJETIVO + "(" + COLUMN_ID + ") ON DELETE CASCADE" +
             ");";
 
     private static final String CREATE_TABLE_PLAN_RUTINA_OBJETIVO = "CREATE TABLE " + TABLE_PLAN_RUTINA_OBJETIVO + " (" +
-            COLUMN_ID_PLAN_RUTINA + " INTEGER," +
-            COLUMN_ID_OBJETIVO + " INTEGER," +
+            COLUMN_ID_PLAN_RUTINA + " INTEGER NOT NULL," +
+            COLUMN_ID_OBJETIVO + " INTEGER NOT NULL," +
             "PRIMARY KEY (" + COLUMN_ID_PLAN_RUTINA + ", " + COLUMN_ID_OBJETIVO + ")," +
             "FOREIGN KEY (" + COLUMN_ID_PLAN_RUTINA + ") REFERENCES " + TABLE_PLAN_RUTINA + "(" + COLUMN_ID + ") ON DELETE CASCADE," +
             "FOREIGN KEY (" + COLUMN_ID_OBJETIVO + ") REFERENCES " + TABLE_OBJETIVO + "(" + COLUMN_ID + ") ON DELETE CASCADE" +

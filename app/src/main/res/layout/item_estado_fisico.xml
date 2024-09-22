@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/item_cliente"
+    android:id="@+id/item_estado_fisico"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
@@ -13,14 +13,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp">
-
-        <ImageView
-            android:id="@+id/imagenCliente"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_placeholder_image" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -37,16 +29,15 @@
 
                 <TextView
                     android:id="@+id/nombreCliente"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nombre"
                     android:textColor="@color/primaryColor"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="35dp"/>
+                    android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/editarClienteButton"
+                    android:id="@+id/editarEstadoFisicoButton"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
@@ -54,16 +45,6 @@
 
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/emailCliente"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Email"
-                android:layout_marginTop="4dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textStyle="italic" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,18 +54,36 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Telf:"
-                    android:textStyle="italic|bold"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginEnd="10dp"
+                    android:text="Estatura:"
+                    android:textStyle="italic|bold" />
 
                 <TextView
-                    android:id="@+id/telefonoCliente"
+                    android:id="@+id/estatura"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Telefono" />
-
+                    android:text="178 cm" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="Peso:"
+                    android:textStyle="italic|bold" />
+
+                <TextView
+                    android:id="@+id/peso"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="70 kg" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -95,15 +94,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fecha nac.:"
-                    android:textStyle="italic|bold"
-                    android:layout_marginEnd="10dp"/>
+                    android:layout_marginEnd="10dp"
+                    android:text="Fecha:"
+                    android:textStyle="italic|bold" />
 
                 <TextView
-                    android:id="@+id/fechaNacimientoCliente"
+                    android:id="@+id/fecha"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Fecha de nacimiento" />
+                    android:text="12/5/2024" />
             </LinearLayout>
 
         </LinearLayout>

@@ -99,17 +99,12 @@ public class Cliente {
         this.foto = foto;
     }
 
+    public String getNombreCompleto() {
+        return this.nombre + " " + this.apellido;
+    }
+
     @Override
     public String toString() {
-        return "{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", fechaNacimiento='" + fechaNacimiento + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", email='" + email + '\'' +
-                ", genero='" + genero + '\'' +
-                ", foto='" + foto + '\'' +
-                '}';
+        return this.getNombreCompleto();
     }
 }
