@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.android.kotlin.personaltrainer.model.database.DatabaseHelper;
+import com.android.kotlin.personaltrainer.model.Database.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;

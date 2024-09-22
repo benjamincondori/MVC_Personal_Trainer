@@ -8,7 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
-import com.android.kotlin.personaltrainer.view.ClientesFragment;
+import com.android.kotlin.personaltrainer.view.Cliente.VCliente;
 import com.android.kotlin.personaltrainer.view.Ejercicio.VEjercicio;
 import com.android.kotlin.personaltrainer.view.PlanesFragment;
 import com.android.kotlin.personaltrainer.view.RutinasFragment;
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_clientes:
             case R.id.btn_cliente:
-                replaceFragment(new ClientesFragment());
+                replaceFragment(new VCliente());
                 getSupportActionBar().setTitle("Clientes");
                 break;
             case R.id.nav_rutinas:

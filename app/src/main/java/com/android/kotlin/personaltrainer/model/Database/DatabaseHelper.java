@@ -1,4 +1,4 @@
-package com.android.kotlin.personaltrainer.model.database;
+package com.android.kotlin.personaltrainer.model.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

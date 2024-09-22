@@ -47,13 +47,13 @@ public class CEjercicio {
 
     public void actualizarEjercicio(Ejercicio ejercicio) {
         int resultado = this.modeloEjercicio.actualizarEjercicio(ejercicio);
-//        this.viewEditar.mostrarMensaje(resultado > 0 ? "Ejercicio actualizado" : "Error al actualizar el ejercicio");
+        this.viewEditar.mostrarMensaje(resultado > 0 ? "Ejercicio actualizado" : "Error al actualizar el ejercicio");
         this.viewEditar.finish();
     }
 
     public void eliminarEjercicio(int idEjercicio) {
         int resultado = this.modeloCategoriaEjercicio.eliminarCategoriaEjercicio(idEjercicio);
-//        this.viewEditar.mostrarMensaje(resultado > 0 ? "Categoria de ejercicio eliminado" : "Error al eliminar el ejercicio");
+        this.viewEditar.mostrarMensaje(resultado > 0 ? "Categoria de ejercicio eliminado" : "Error al eliminar el ejercicio");
         this.viewEditar.finish();
     }
 

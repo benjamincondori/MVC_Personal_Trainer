@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.android.kotlin.personaltrainer.model.database.DatabaseHelper;
+import com.android.kotlin.personaltrainer.model.Database.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +93,7 @@ public class MEjercicio {
     }
 
     // Obtener un ejercicio por su id
-    public Ejercicio obtenerEjercicioPorId(int id) {
+    public Ejercicio obtenerEjercicioPorId(int idEjercicio) {
         SQLiteDatabase dbHelper = null;
         Cursor cursor = null;
         Ejercicio ejercicio = null;
@@ -101,17 +101,18 @@ public class MEjercicio {
         try {
             dbHelper = db.getReadableDatabase();
 
-            String query = "SELECT * FROM " + DatabaseHelper.TABLE_EJERCICIO + " WHERE " + DatabaseHelper.COLUMN_ID + " = " + id;
-            cursor = dbHelper.rawQuery(query, null);
+            String query = "SELECT * FROM " + DatabaseHelper.TABLE_EJERCICIO + " WHERE " + DatabaseHelper.COLUMN_ID + " = ?";
+            String[] whereArgs = {String.valueOf(idEjercicio)};
+            cursor = dbHelper.rawQuery(query, whereArgs);
 
-            if (cursor.moveToFirst()) {
+            if (cursor != null && cursor.moveToFirst()) {
                 String nombre = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOMBRE));
                 String descripcion = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DESCRIPCION));
                 String imagen = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_IMAGEN));
                 String urlVideo = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_URL_VIDEO));
                 int idCategoria = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID_CATEGORIA));
 
-                ejercicio = new Ejercicio(id, nombre, descripcion, imagen, urlVideo, idCategoria);
+                ejercicio = new Ejercicio(idEjercicio, nombre, descripcion, imagen, urlVideo, idCategoria);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,7 +139,7 @@ public class MEjercicio {
             String query = "SELECT * FROM " + DatabaseHelper.TABLE_EJERCICIO;
             cursor = dbHelper.rawQuery(query, null);
 
-            if (cursor.moveToFirst()) {
+            if (cursor != null && cursor.moveToFirst()) {
                 do {
                     int id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID));
                     String nombre = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOMBRE));
