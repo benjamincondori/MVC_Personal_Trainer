@@ -49,7 +49,7 @@ public class VEstadoFisico extends Fragment {
         this.recyclerView.setAdapter(this.listAdapter);
 
         this.fab.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), VAgregarEstadoFisico.class);
+            Intent intent = new Intent(getActivity(), VCrearEstadoFisico.class);
             startActivity(intent);
         });
 

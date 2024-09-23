@@ -1,4 +1,4 @@
-package com.android.kotlin.personaltrainer.model.Database;
+package com.android.kotlin.personaltrainer.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,13 +14,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_ESTADO_FISICO = "Estado_Fisico";
     public static final String TABLE_OBJETIVO = "Objetivo";
     public static final String TABLE_EJERCICIO = "Ejercicio";
-    public static final String TABLE_DETALLE_EJERCICIO = "Detalle_Ejercicio";
+    public static final String TABLE_DETALLE_RUTINA_EJERCICIO = "Detalle_Rutina_Ejercicio";
     public static final String TABLE_RUTINA = "Rutina";
-    public static final String TABLE_PLAN_RUTINA = "Plan_Rutina";
+    public static final String TABLE_PLAN_ENTRENAMIENTO = "Plan_Entrenamiento";
     public static final String TABLE_CATEGORIA_EJERCICIO = "Categoria_Ejercicio";
     public static final String TABLE_CLIENTE_OBJETIVO = "Cliente_Objetivo";
     public static final String TABLE_PLAN_RUTINA_OBJETIVO = "Plan_Rutina_Objetivo";
-    public static final String TABLE_DETALLE_PLAN_RUTINA = "Detalle_Plan_Rutina";
+    public static final String TABLE_DETALLE_PLAN_ENTRENAMIENTO = "Detalle_Plan_Entrenamiento";
 
     // Columnas En Común
     public static final String COLUMN_ID = "id";
@@ -55,7 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Columnas Tabla Detalle Ejercicio
     public static final String COLUMN_SERIES = "series";
     public static final String COLUMN_REPETICIONES = "repeticiones";
-    public static final String COLUMN_DESCANSO_SEGUNDOS = "descanso_segundos";
+    public static final String COLUMN_DESCANSO = "descanso";
     public static final String COLUMN_ID_EJERCICIO = "id_ejercicio";
     public static final String COLUMN_ID_RUTINA = "id_rutina";
 
@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID_OBJETIVO = "id_objetivo";
 
     // Columnas Tabla Plan Rutina Objetivo
-    public static final String COLUMN_ID_PLAN_RUTINA = "id_plan_rutina";
+    public static final String COLUMN_ID_PLAN_ENTRENAMIENTO = "id_plan_entrenamiento";
 
     // Columnas Tabla Detalle Plan Rutina
     public static final String COLUMN_DIA_SEMANA = "dia_semana";
@@ -119,7 +119,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_DESCRIPCION + " TEXT NOT NULL" +
             ");";
 
-    private static final String CREATE_TABLE_PLAN_RUTINA = "CREATE TABLE " + TABLE_PLAN_RUTINA + " (" +
+    private static final String CREATE_TABLE_PLAN_ENTRENAMIENTO = "CREATE TABLE " + TABLE_PLAN_ENTRENAMIENTO + " (" +
             COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             COLUMN_NOMBRE + " TEXT NOT NULL UNIQUE," +
             COLUMN_DESCRIPCION + " TEXT NOT NULL," +
@@ -130,13 +130,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "FOREIGN KEY (" + COLUMN_ID_CLIENTE + ") REFERENCES " + TABLE_CLIENTE + "(" + COLUMN_ID + ") ON DELETE CASCADE" +
             ");";
 
-    private static final String CREATE_TABLE_DETALLE_EJERCICIO = "CREATE TABLE " + TABLE_DETALLE_EJERCICIO + " (" +
+    private static final String CREATE_TABLE_DETALLE_RUTINA_EJERCICIO = "CREATE TABLE " + TABLE_DETALLE_RUTINA_EJERCICIO + " (" +
+            COLUMN_ID_RUTINA + " INTEGER NOT NULL," +
+            COLUMN_ID_EJERCICIO + " INTEGER NOT NULL," +
             COLUMN_SERIES + " INTEGER NOT NULL," +
             COLUMN_REPETICIONES + " INTEGER NOT NULL," +
-            COLUMN_DESCANSO_SEGUNDOS + " INTEGER," +
-            COLUMN_ID_EJERCICIO + " INTEGER NOT NULL," +
-            COLUMN_ID_RUTINA + " INTEGER NOT NULL," +
-            "PRIMARY KEY (" + COLUMN_ID_EJERCICIO + ", " + COLUMN_ID_RUTINA + ")," +
+            COLUMN_DESCANSO + " INTEGER NOT NULL," +
+            "PRIMARY KEY (" + COLUMN_ID_RUTINA + ", " + COLUMN_ID_EJERCICIO + ")," +
             "FOREIGN KEY (" + COLUMN_ID_EJERCICIO + ") REFERENCES " + TABLE_EJERCICIO + "(" + COLUMN_ID + ") ON DELETE CASCADE," +
             "FOREIGN KEY (" + COLUMN_ID_RUTINA + ") REFERENCES " + TABLE_RUTINA + "(" + COLUMN_ID + ") ON DELETE CASCADE" +
             ");";
@@ -151,18 +151,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ");";
 
     private static final String CREATE_TABLE_PLAN_RUTINA_OBJETIVO = "CREATE TABLE " + TABLE_PLAN_RUTINA_OBJETIVO + " (" +
-            COLUMN_ID_PLAN_RUTINA + " INTEGER NOT NULL," +
+            COLUMN_ID_PLAN_ENTRENAMIENTO + " INTEGER NOT NULL," +
             COLUMN_ID_OBJETIVO + " INTEGER NOT NULL," +
-            "PRIMARY KEY (" + COLUMN_ID_PLAN_RUTINA + ", " + COLUMN_ID_OBJETIVO + ")," +
-            "FOREIGN KEY (" + COLUMN_ID_PLAN_RUTINA + ") REFERENCES " + TABLE_PLAN_RUTINA + "(" + COLUMN_ID + ") ON DELETE CASCADE," +
+            "PRIMARY KEY (" + COLUMN_ID_PLAN_ENTRENAMIENTO + ", " + COLUMN_ID_OBJETIVO + ")," +
+            "FOREIGN KEY (" + COLUMN_ID_PLAN_ENTRENAMIENTO + ") REFERENCES " + TABLE_PLAN_ENTRENAMIENTO + "(" + COLUMN_ID + ") ON DELETE CASCADE," +
             "FOREIGN KEY (" + COLUMN_ID_OBJETIVO + ") REFERENCES " + TABLE_OBJETIVO + "(" + COLUMN_ID + ") ON DELETE CASCADE" +
             ");";
 
-    private static final String CREATE_TABLE_DETALLE_PLAN_RUTINA = "CREATE TABLE " + TABLE_DETALLE_PLAN_RUTINA + " (" +
-            COLUMN_DIA_SEMANA + " TEXT NOT NULL," +
-            COLUMN_ID_PLAN_RUTINA + " INTEGER NOT NULL," +
+    private static final String CREATE_TABLE_DETALLE_PLAN_ENTRENAMIENTO = "CREATE TABLE " + TABLE_DETALLE_PLAN_ENTRENAMIENTO + " (" +
+            COLUMN_ID_PLAN_ENTRENAMIENTO + " INTEGER NOT NULL," +
             COLUMN_ID_RUTINA + " INTEGER NOT NULL," +
-            "FOREIGN KEY (" + COLUMN_ID_PLAN_RUTINA + ") REFERENCES " + TABLE_PLAN_RUTINA + "(" + COLUMN_ID + ") ON DELETE CASCADE," +
+            COLUMN_DIA_SEMANA + " TEXT NOT NULL," +
+            "FOREIGN KEY (" + COLUMN_ID_PLAN_ENTRENAMIENTO + ") REFERENCES " + TABLE_PLAN_ENTRENAMIENTO + "(" + COLUMN_ID + ") ON DELETE CASCADE," +
             "FOREIGN KEY (" + COLUMN_ID_RUTINA + ") REFERENCES " + TABLE_RUTINA + "(" + COLUMN_ID + ") ON DELETE CASCADE" +
             ");";
 
@@ -177,22 +177,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_OBJETIVO);
         db.execSQL(CREATE_TABLE_CATEGORIA_EJERCICIO);
         db.execSQL(CREATE_TABLE_EJERCICIO);
-        db.execSQL(CREATE_TABLE_DETALLE_EJERCICIO);
+        db.execSQL(CREATE_TABLE_DETALLE_RUTINA_EJERCICIO);
         db.execSQL(CREATE_TABLE_RUTINA);
-        db.execSQL(CREATE_TABLE_PLAN_RUTINA);
+        db.execSQL(CREATE_TABLE_PLAN_ENTRENAMIENTO);
         db.execSQL(CREATE_TABLE_CLIENTE_OBJETIVO);
         db.execSQL(CREATE_TABLE_PLAN_RUTINA_OBJETIVO);
-        db.execSQL(CREATE_TABLE_DETALLE_PLAN_RUTINA);
+        db.execSQL(CREATE_TABLE_DETALLE_PLAN_ENTRENAMIENTO);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DETALLE_PLAN_RUTINA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DETALLE_PLAN_ENTRENAMIENTO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLIENTE_OBJETIVO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAN_RUTINA_OBJETIVO);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAN_RUTINA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAN_ENTRENAMIENTO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RUTINA);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DETALLE_EJERCICIO);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DETALLE_RUTINA_EJERCICIO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EJERCICIO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIA_EJERCICIO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_OBJETIVO);

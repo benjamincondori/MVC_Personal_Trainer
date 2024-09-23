@@ -6,7 +6,7 @@ import com.android.kotlin.personaltrainer.model.Cliente.Cliente;
 import com.android.kotlin.personaltrainer.model.Cliente.MCliente;
 import com.android.kotlin.personaltrainer.model.EstadoFisico.EstadoFisico;
 import com.android.kotlin.personaltrainer.model.EstadoFisico.MEstadoFisico;
-import com.android.kotlin.personaltrainer.view.EstadoFisico.VAgregarEstadoFisico;
+import com.android.kotlin.personaltrainer.view.EstadoFisico.VCrearEstadoFisico;
 import com.android.kotlin.personaltrainer.view.EstadoFisico.VEditarEstadoFisico;
 import com.android.kotlin.personaltrainer.view.EstadoFisico.VEstadoFisico;
 
@@ -17,7 +17,7 @@ public class CEstadoFisico {
     private final MEstadoFisico modeloEstadoFisico;
     private final MCliente modeloCliente;
     private VEstadoFisico viewListar;
-    private VAgregarEstadoFisico viewAgregar;
+    private VCrearEstadoFisico viewAgregar;
     private VEditarEstadoFisico viewEditar;
 
     // Constructor para Fragments
@@ -32,8 +32,8 @@ public class CEstadoFisico {
         this.modeloEstadoFisico = new MEstadoFisico(context);
         this.modeloCliente = new MCliente(context);
 
-        if (context instanceof VAgregarEstadoFisico) {
-            this.viewAgregar = (VAgregarEstadoFisico) context;
+        if (context instanceof VCrearEstadoFisico) {
+            this.viewAgregar = (VCrearEstadoFisico) context;
         } else if (context instanceof VEditarEstadoFisico) {
             this.viewEditar = (VEditarEstadoFisico) context;
         }

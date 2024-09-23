@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.android.kotlin.personaltrainer.model.CategoriaEjercicio.CategoriaEjercicio;
 import com.android.kotlin.personaltrainer.model.CategoriaEjercicio.MCategoriaEjercicio;
-import com.android.kotlin.personaltrainer.view.CategoriaEjercicio.VAgregarCategoriaEjercicio;
+import com.android.kotlin.personaltrainer.view.CategoriaEjercicio.VCrearCategoriaEjercicio;
 import com.android.kotlin.personaltrainer.view.CategoriaEjercicio.VEditarCategoriaEjercicio;
 import com.android.kotlin.personaltrainer.view.CategoriaEjercicio.VCategoriaEjercicio;
 
@@ -14,7 +14,7 @@ public class CCategoriaEjercicio {
 
     private final MCategoriaEjercicio modeloCategoriaEjercicio;
     private VCategoriaEjercicio viewListar;
-    private VAgregarCategoriaEjercicio viewAgregar;
+    private VCrearCategoriaEjercicio viewAgregar;
     private VEditarCategoriaEjercicio viewEditar;
 
     // Constructor para Fragments
@@ -27,8 +27,8 @@ public class CCategoriaEjercicio {
     public CCategoriaEjercicio(Context context) {
         this.modeloCategoriaEjercicio = new MCategoriaEjercicio(context);
 
-        if (context instanceof VAgregarCategoriaEjercicio) {
-            this.viewAgregar = (VAgregarCategoriaEjercicio) context;
+        if (context instanceof VCrearCategoriaEjercicio) {
+            this.viewAgregar = (VCrearCategoriaEjercicio) context;
         } else if (context instanceof VEditarCategoriaEjercicio) {
             this.viewEditar = (VEditarCategoriaEjercicio) context;
         }

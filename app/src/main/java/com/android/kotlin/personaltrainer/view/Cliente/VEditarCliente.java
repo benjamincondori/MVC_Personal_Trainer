@@ -17,10 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.android.kotlin.personaltrainer.R;
 import com.android.kotlin.personaltrainer.controller.CCliente;
-import com.android.kotlin.personaltrainer.model.CategoriaEjercicio.CategoriaEjercicio;
 import com.android.kotlin.personaltrainer.model.Cliente.Cliente;
-import com.android.kotlin.personaltrainer.model.Ejercicio.Ejercicio;
-import com.android.kotlin.personaltrainer.view.utils.ToolbarUtils;
+import com.android.kotlin.personaltrainer.utils.ToolbarUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 

@@ -45,7 +45,7 @@ public class VCliente extends Fragment {
         this.recyclerView.setAdapter(this.listAdapter);
 
         this.fab.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), VAgregarCliente.class);
+            Intent intent = new Intent(getActivity(), VCrearCliente.class);
             startActivity(intent);
         });
 

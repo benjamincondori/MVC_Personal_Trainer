@@ -79,13 +79,6 @@ public class Ejercicio {
 
     @Override
     public String toString() {
-        return "{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", imagen='" + imagen + '\'' +
-                ", urlVideo='" + urlVideo + '\'' +
-                ", idCategoria=" + idCategoria +
-                '}';
+        return this.getNombre();
     }
 }

@@ -44,7 +44,7 @@ public class VCategoriaEjercicio extends Fragment {
         this.recyclerView.setAdapter(this.listAdapter);
 
         this.fab.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), VAgregarCategoriaEjercicio.class);
+            Intent intent = new Intent(getActivity(), VCrearCategoriaEjercicio.class);
             startActivity(intent);
         });
 

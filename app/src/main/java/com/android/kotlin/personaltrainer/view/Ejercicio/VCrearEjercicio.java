@@ -1,8 +1,6 @@
 package com.android.kotlin.personaltrainer.view.Ejercicio;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -14,20 +12,19 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.android.kotlin.personaltrainer.R;
 import com.android.kotlin.personaltrainer.controller.CEjercicio;
 import com.android.kotlin.personaltrainer.model.CategoriaEjercicio.CategoriaEjercicio;
 import com.android.kotlin.personaltrainer.model.Ejercicio.Ejercicio;
-import com.android.kotlin.personaltrainer.view.utils.ToolbarUtils;
+import com.android.kotlin.personaltrainer.utils.ToolbarUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 
 import java.util.List;
 
-public class VAgregarEjercicio extends AppCompatActivity {
+public class VCrearEjercicio extends AppCompatActivity {
 
     CEjercicio controller;
     List<CategoriaEjercicio> listadoCategorias;
@@ -43,7 +40,7 @@ public class VAgregarEjercicio extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.agregar_ejercicio);
+        setContentView(R.layout.crear_ejercicio);
 
         this.controller = new CEjercicio(this);
 

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.Rutina.VEditarRutina">
+
+    <!-- Contenedor principal (LinearLayout para los inputs y la toolbar) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_rutina"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primaryColor"
+            app:title="Editar Rutina"
+            app:titleTextColor="@color/white" />
+
+        <!-- Input Edit Nombre -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nombre_input_edit"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Nombre">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Input Edit Descripcion -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/descripcion_input_edit"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Descripción">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:minLines="3" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!-- Botón para actualizar los datos del ejercicio -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/actualizar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/primaryColor"
+                android:text="Actualizar"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_save"
+                app:iconGravity="textStart"
+                app:iconPadding="15dp"
+                app:iconTint="@android:color/white" />
+
+            <!-- Botón para eliminar los datos del ejercicio -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/eliminar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:backgroundTint="@android:color/holo_red_dark"
+                android:text="Eliminar"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_delete"
+                app:iconGravity="textStart"
+                app:iconPadding="15dp"
+                app:iconTint="@android:color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

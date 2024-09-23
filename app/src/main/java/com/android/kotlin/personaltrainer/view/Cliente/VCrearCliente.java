@@ -17,13 +17,13 @@ import androidx.appcompat.widget.Toolbar;
 import com.android.kotlin.personaltrainer.R;
 import com.android.kotlin.personaltrainer.controller.CCliente;
 import com.android.kotlin.personaltrainer.model.Cliente.Cliente;
-import com.android.kotlin.personaltrainer.view.utils.ToolbarUtils;
+import com.android.kotlin.personaltrainer.utils.ToolbarUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
 
-public class VAgregarCliente extends AppCompatActivity {
+public class VCrearCliente extends AppCompatActivity {
 
     CCliente controller;
 
@@ -41,7 +41,7 @@ public class VAgregarCliente extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.agregar_cliente);
+        setContentView(R.layout.crear_cliente);
 
         initComponents();
 

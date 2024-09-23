@@ -1,22 +1,19 @@
 package com.android.kotlin.personaltrainer.view.CategoriaEjercicio;
 
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.android.kotlin.personaltrainer.R;
 import com.android.kotlin.personaltrainer.controller.CCategoriaEjercicio;
 import com.android.kotlin.personaltrainer.model.CategoriaEjercicio.CategoriaEjercicio;
-import com.android.kotlin.personaltrainer.view.utils.ToolbarUtils;
+import com.android.kotlin.personaltrainer.utils.ToolbarUtils;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class VAgregarCategoriaEjercicio extends AppCompatActivity {
+public class VCrearCategoriaEjercicio extends AppCompatActivity {
 
     CCategoriaEjercicio controller;
 
@@ -27,7 +24,7 @@ public class VAgregarCategoriaEjercicio extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.agregar_categoria_ejercicio);
+        setContentView(R.layout.crear_categoria_ejercicio);
 
         this.controller = new CCategoriaEjercicio(this);
 

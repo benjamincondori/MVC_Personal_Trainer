@@ -1,4 +1,4 @@
-package com.android.kotlin.personaltrainer.view.Ejercicio;
+package com.android.kotlin.personaltrainer.view.Rutina;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,52 +13,51 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.android.kotlin.personaltrainer.R;
-import com.android.kotlin.personaltrainer.controller.CEjercicio;
-import com.android.kotlin.personaltrainer.model.Ejercicio.Ejercicio;
+import com.android.kotlin.personaltrainer.controller.CRutina;
+import com.android.kotlin.personaltrainer.model.Rutina.Rutina;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class VEjercicio extends Fragment {
+public class VRutina extends Fragment {
 
-    CEjercicio controller;
+    CRutina controller;
     FloatingActionButton fab;
-    EjercicioAdapter listAdapter;
+    RutinaAdapter listAdapter;
     RecyclerView recyclerView;
-    List<Ejercicio> listadoEjercicios;
+    List<Rutina> listadoRutinas;
     LinearLayout emptyLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.index_ejercicio, container, false);
+        View view = inflater.inflate(R.layout.index_rutina, container, false);
 
-        this.controller = new CEjercicio(this);
+        this.controller = new CRutina(this);
 
-        this.fab = view.findViewById(R.id.btn_agregar_ejercicio);
-        this.recyclerView = view.findViewById(R.id.recyclerview_ejercicio);
+        this.fab = view.findViewById(R.id.btn_add_rutina);
+        this.recyclerView = view.findViewById(R.id.recyclerview_rutinas);
         this.emptyLayout = view.findViewById(R.id.empty_layout);
 
-        controller.cargarEjercicios();
+        controller.cargarRutinas();
 
-        this.listAdapter = new EjercicioAdapter(getActivity(), this.listadoEjercicios);
+        this.listAdapter = new RutinaAdapter(getActivity(), this.listadoRutinas);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         this.recyclerView.setAdapter(this.listAdapter);
 
         this.fab.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), VCrearEjercicio.class);
+            Intent intent = new Intent(getActivity(), VCrearRutina.class);
             startActivity(intent);
         });
 
         return view;
     }
 
-    public void cargarEjercicios(List<Ejercicio> listado) {
-        this.listadoEjercicios = listado;
+    public void cargarRutinas(List<Rutina> listado) {
+        this.listadoRutinas = listado;
     }
 
-
     public void verificarVacio() {
-        if (this.listadoEjercicios.isEmpty()) {
+        if (this.listadoRutinas.isEmpty()) {
             this.emptyLayout.setVisibility(LinearLayout.VISIBLE);
         } else {
             this.emptyLayout.setVisibility(LinearLayout.GONE);
@@ -68,8 +67,8 @@ public class VEjercicio extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        controller.cargarEjercicios();
-        this.listAdapter.refreshData(this.listadoEjercicios);
+        controller.cargarRutinas();
+        this.listAdapter.refreshData(this.listadoRutinas);
         verificarVacio();
     }
 }

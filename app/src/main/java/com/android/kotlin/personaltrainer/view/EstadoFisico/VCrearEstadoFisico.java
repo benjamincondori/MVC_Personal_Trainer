@@ -13,7 +13,7 @@ import com.android.kotlin.personaltrainer.R;
 import com.android.kotlin.personaltrainer.controller.CEstadoFisico;
 import com.android.kotlin.personaltrainer.model.Cliente.Cliente;
 import com.android.kotlin.personaltrainer.model.EstadoFisico.EstadoFisico;
-import com.android.kotlin.personaltrainer.view.utils.ToolbarUtils;
+import com.android.kotlin.personaltrainer.utils.ToolbarUtils;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class VAgregarEstadoFisico extends AppCompatActivity {
+public class VCrearEstadoFisico extends AppCompatActivity {
 
     CEstadoFisico controller;
     List<Cliente> listadoClientes;
@@ -34,7 +34,7 @@ public class VAgregarEstadoFisico extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.agregar_estado_fisico);
+        setContentView(R.layout.crear_estado_fisico);
 
         this.controller = new CEstadoFisico(this);
 

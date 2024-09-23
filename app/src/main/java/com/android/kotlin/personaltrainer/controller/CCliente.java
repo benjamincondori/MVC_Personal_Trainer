@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.android.kotlin.personaltrainer.model.Cliente.Cliente;
 import com.android.kotlin.personaltrainer.model.Cliente.MCliente;
-import com.android.kotlin.personaltrainer.view.Cliente.VAgregarCliente;
+import com.android.kotlin.personaltrainer.view.Cliente.VCrearCliente;
 import com.android.kotlin.personaltrainer.view.Cliente.VCliente;
 import com.android.kotlin.personaltrainer.view.Cliente.VEditarCliente;
 
@@ -12,7 +12,7 @@ public class CCliente {
 
     private final MCliente modeloCliente;
     private VCliente viewListar;
-    private VAgregarCliente viewAgregar;
+    private VCrearCliente viewAgregar;
     private VEditarCliente viewEditar;
 
     // Constructor para Fragments
@@ -25,8 +25,8 @@ public class CCliente {
     public CCliente(Context context) {
         this.modeloCliente = new MCliente(context);
 
-        if (context instanceof VAgregarCliente) {
-            this.viewAgregar = (VAgregarCliente) context;
+        if (context instanceof VCrearCliente) {
+            this.viewAgregar = (VCrearCliente) context;
         } else if (context instanceof VEditarCliente) {
             this.viewEditar = (VEditarCliente) context;
         }

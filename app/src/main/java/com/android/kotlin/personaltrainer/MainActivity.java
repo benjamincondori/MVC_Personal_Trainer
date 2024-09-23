@@ -11,10 +11,9 @@ import androidx.fragment.app.Fragment;
 import com.android.kotlin.personaltrainer.view.Cliente.VCliente;
 import com.android.kotlin.personaltrainer.view.Ejercicio.VEjercicio;
 import com.android.kotlin.personaltrainer.view.EstadoFisico.VEstadoFisico;
-import com.android.kotlin.personaltrainer.view.PlanesFragment;
-import com.android.kotlin.personaltrainer.view.RutinasFragment;
+import com.android.kotlin.personaltrainer.view.PlanEntrenamiento.VPlanEntrenamiento;
+import com.android.kotlin.personaltrainer.view.Rutina.VRutina;
 import com.android.kotlin.personaltrainer.view.CategoriaEjercicio.VCategoriaEjercicio;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -92,11 +91,11 @@ public class MainActivity extends AppCompatActivity {
                 getSupportActionBar().setTitle("Estado Físico");
                 break;
             case R.id.nav_rutinas:
-                replaceFragment(new RutinasFragment());
+                replaceFragment(new VRutina());
                 getSupportActionBar().setTitle("Rutinas");
                 break;
             case R.id.nav_planes:
-                replaceFragment(new PlanesFragment());
+                replaceFragment(new VPlanEntrenamiento());
                 getSupportActionBar().setTitle("Planes de Rutina");
                 break;
         }

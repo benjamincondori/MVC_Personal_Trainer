@@ -1,4 +1,4 @@
-package com.android.kotlin.personaltrainer.view.utils;
+package com.android.kotlin.personaltrainer.utils;
 
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
