@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +38,8 @@ public class VDetalleRutina extends AppCompatActivity {
     TextView textViewNombre, textViewDescripcion;
     Toolbar toolbar;
     AutoCompleteTextView spinnerEjercicios;
-
-    private MaterialButton agregarButton;
+    MaterialButton agregarButton;
+    LinearLayout emptyLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class VDetalleRutina extends AppCompatActivity {
         this.textViewNombre = findViewById(R.id.textViewNombre);
         this.textViewDescripcion = findViewById(R.id.textViewDescripcion);
         this.recyclerView = findViewById(R.id.recyclerDetalleRutina);
+        this.emptyLayout = findViewById(R.id.empty_layout);
 
         ToolbarUtils.setupToolbar(this, toolbar);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -72,7 +74,7 @@ public class VDetalleRutina extends AppCompatActivity {
 
         agregarButton.setOnClickListener(view -> {
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(VDetalleRutina.this);
-            View view1 = LayoutInflater.from(VDetalleRutina.this).inflate(R.layout.bottom_sheet_layout, null);
+            View view1 = LayoutInflater.from(VDetalleRutina.this).inflate(R.layout.bottom_sheet_detalle_rutina, null);
             bottomSheetDialog.setContentView(view1);
             bottomSheetDialog.show();
 
@@ -163,6 +165,16 @@ public class VDetalleRutina extends AppCompatActivity {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 
+    public void verificarVacio() {
+        if (this.listadoDetalleRutina.isEmpty()) {
+            this.emptyLayout.setVisibility(LinearLayout.VISIBLE);
+            this.recyclerView.setVisibility(RecyclerView.GONE);
+        } else {
+            this.emptyLayout.setVisibility(LinearLayout.GONE);
+            this.recyclerView.setVisibility(RecyclerView.VISIBLE);
+        }
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         getOnBackPressedDispatcher().onBackPressed();
@@ -174,6 +186,6 @@ public class VDetalleRutina extends AppCompatActivity {
         super.onResume();
         controller.cargarDetalleRutina(this.rutinaActual.getId());
         this.listAdapter.refreshData(this.listadoDetalleRutina);
-//        verificarVacio();
+        verificarVacio();
     }
 }

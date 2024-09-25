@@ -67,7 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID_PLAN_ENTRENAMIENTO = "id_plan_entrenamiento";
 
     // Columnas Tabla Detalle Plan Rutina
-    public static final String COLUMN_DIA_SEMANA = "dia_semana";
+    public static final String COLUMN_DIA = "dia";
 
 
     // Creación de tablas
@@ -161,7 +161,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_DETALLE_PLAN_ENTRENAMIENTO = "CREATE TABLE " + TABLE_DETALLE_PLAN_ENTRENAMIENTO + " (" +
             COLUMN_ID_PLAN_ENTRENAMIENTO + " INTEGER NOT NULL," +
             COLUMN_ID_RUTINA + " INTEGER NOT NULL," +
-            COLUMN_DIA_SEMANA + " TEXT NOT NULL," +
+            COLUMN_DIA + " TEXT NOT NULL," +
+            "PRIMARY KEY (" + COLUMN_ID_PLAN_ENTRENAMIENTO + ", " + COLUMN_ID_RUTINA + ")," +
             "FOREIGN KEY (" + COLUMN_ID_PLAN_ENTRENAMIENTO + ") REFERENCES " + TABLE_PLAN_ENTRENAMIENTO + "(" + COLUMN_ID + ") ON DELETE CASCADE," +
             "FOREIGN KEY (" + COLUMN_ID_RUTINA + ") REFERENCES " + TABLE_RUTINA + "(" + COLUMN_ID + ") ON DELETE CASCADE" +
             ");";

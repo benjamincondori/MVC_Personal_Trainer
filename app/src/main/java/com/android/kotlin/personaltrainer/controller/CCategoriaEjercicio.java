@@ -36,8 +36,12 @@ public class CCategoriaEjercicio {
 
     public void guardarCategoriaEjercicio(CategoriaEjercicio categoriaEjercicio) {
         long resultado = this.modeloCategoriaEjercicio.insertarCategoriaEjercicio(categoriaEjercicio);
-        this.viewAgregar.mostrarMensaje(resultado > 0 ? "Categoria de ejercicio guardado" : "Error al guardar la categoria de ejercicio");
-        this.viewAgregar.finish();
+        if (resultado > 0) {
+            this.viewAgregar.mostrarMensaje("Categoria de ejercicio guardado");
+            this.viewAgregar.finish();
+        } else {
+            this.viewAgregar.mostrarMensaje("Error al guardar la categoria de ejercicio");
+        }
     }
 
     public void actualizarCategoriaEjercicio(CategoriaEjercicio categoriaEjercicio) {
@@ -48,8 +52,12 @@ public class CCategoriaEjercicio {
 
     public void eliminarCategoriaEjercicio(int idCategoriaEjercicio) {
         int resultado = this.modeloCategoriaEjercicio.eliminarCategoriaEjercicio(idCategoriaEjercicio);
-        this.viewEditar.mostrarMensaje(resultado > 0 ? "Categoria de ejercicio eliminado" : "Error al eliminar la categoria de ejercicio");
-        this.viewEditar.finish();
+        if (resultado > 0) {
+            this.viewEditar.mostrarMensaje("Categoria de ejercicio eliminado");
+            this.viewEditar.finish();
+        } else {
+            this.viewEditar.mostrarMensaje("Error al eliminar la categoria de ejercicio");
+        }
     }
 
     public void cargarCategoriaEjercicios() {

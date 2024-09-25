@@ -74,10 +74,34 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:layout_weight="1"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:visibility="visible"/>
 
+    <!-- Empty View -->
+    <LinearLayout
+        android:id="@+id/empty_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="230dp"
+            android:src="@drawable/img_bandeja_vacia" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="No se añadieron ejercicios en esta rutina"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="18dp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

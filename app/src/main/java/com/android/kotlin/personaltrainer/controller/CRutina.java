@@ -77,7 +77,7 @@ public class CRutina {
     public void guardarDetalleRutina(DetalleRutinaEjercicio detalle) {
         long resultado = this.modeloRutina.insertarDetalleRutina(detalle);
         this.viewDetalle.mostrarMensaje(resultado > 0 ? "Ejercicio agregado" : "Error al agregar el ejercicio");
-//        this.viewDetalle.finish();
+        // actualizar la lista de detalles
     }
 
     public void eliminarDetalleRutinaEjercicio(int idRutina, int idEjercicio) {

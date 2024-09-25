@@ -2,10 +2,12 @@ package com.android.kotlin.personaltrainer.model.PlanEntrenamiento;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.android.kotlin.personaltrainer.database.DatabaseHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MPlanEntrenamiento {
@@ -94,32 +96,185 @@ public class MPlanEntrenamiento {
 
     // Obtener un plan de entrenamiento por su id
     public PlanEntrenamiento obtenerPlanEntrenamiento(int id) {
-        return null;
+        SQLiteDatabase dbHelper = null;
+        PlanEntrenamiento planEntrenamiento = null;
+
+        try {
+            dbHelper = db.getReadableDatabase();
+            String query = "SELECT * FROM " + DatabaseHelper.TABLE_PLAN_ENTRENAMIENTO + " WHERE " + DatabaseHelper.COLUMN_ID + " = ?";
+            String[] selectionArgs = {String.valueOf(id)};
+            Cursor cursor = dbHelper.rawQuery(query, selectionArgs);
+
+            if (cursor.moveToFirst()) {
+                planEntrenamiento = new PlanEntrenamiento();
+                planEntrenamiento.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID)));
+                planEntrenamiento.setNombre(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOMBRE)));
+                planEntrenamiento.setDescripcion(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DESCRIPCION)));
+                planEntrenamiento.setFechaInicio(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_FECHA_INICIO)));
+                planEntrenamiento.setFechaFin(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_FECHA_FIN)));
+                planEntrenamiento.setIdCliente(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID_CLIENTE)));
+                planEntrenamiento.setTipo(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TIPO)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (dbHelper != null) {
+                dbHelper.close();
+            }
+        }
+        return planEntrenamiento;
     }
 
     // Obtener todos los planes de entrenamiento
-    public List<PlanEntrenamiento> obtenerPlanesEntrenamiento() {
-        return null;
+    public List<PlanEntrenamiento> obtenerTodosLosPlanesEntrenamiento() {
+        SQLiteDatabase dbHelper = null;
+        Cursor cursor = null;
+        List<PlanEntrenamiento> listadoPlanesEntrenamiento = new ArrayList<>();
+
+        try {
+            dbHelper = db.getReadableDatabase();
+            String query = "SELECT * FROM " + DatabaseHelper.TABLE_PLAN_ENTRENAMIENTO;
+            cursor = dbHelper.rawQuery(query, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    PlanEntrenamiento planEntrenamiento = new PlanEntrenamiento();
+                    planEntrenamiento.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID)));
+                    planEntrenamiento.setNombre(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOMBRE)));
+                    planEntrenamiento.setDescripcion(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DESCRIPCION)));
+                    planEntrenamiento.setFechaInicio(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_FECHA_INICIO)));
+                    planEntrenamiento.setFechaFin(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_FECHA_FIN)));
+                    planEntrenamiento.setIdCliente(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID_CLIENTE)));
+                    planEntrenamiento.setTipo(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TIPO)));
+                    listadoPlanesEntrenamiento.add(planEntrenamiento);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (dbHelper != null) {
+                dbHelper.close();
+            }
+        }
+        return listadoPlanesEntrenamiento;
     }
 
     // Obtener todos los planes de entrenamiento de un cliente
     public List<PlanEntrenamiento> obtenerPlanesEntrenamientoCliente(int idCliente) {
-        return null;
+        SQLiteDatabase dbHelper = null;
+        Cursor cursor = null;
+        List<PlanEntrenamiento> listadoPlanesEntrenamiento = new ArrayList<>();
+
+        try {
+            dbHelper = db.getReadableDatabase();
+            String query = "SELECT * FROM " + DatabaseHelper.TABLE_PLAN_ENTRENAMIENTO + " WHERE " + DatabaseHelper.COLUMN_ID_CLIENTE + " = ?";
+            String[] selectionArgs = {String.valueOf(idCliente)};
+            cursor = dbHelper.rawQuery(query, selectionArgs);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    PlanEntrenamiento planEntrenamiento = new PlanEntrenamiento();
+                    planEntrenamiento.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID)));
+                    planEntrenamiento.setNombre(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOMBRE)));
+                    planEntrenamiento.setDescripcion(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DESCRIPCION)));
+                    planEntrenamiento.setFechaInicio(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_FECHA_INICIO)));
+                    planEntrenamiento.setFechaFin(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_FECHA_FIN)));
+                    planEntrenamiento.setIdCliente(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID_CLIENTE)));
+                    planEntrenamiento.setTipo(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TIPO)));
+                    listadoPlanesEntrenamiento.add(planEntrenamiento);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (dbHelper != null) {
+                dbHelper.close();
+            }
+        }
+        return listadoPlanesEntrenamiento;
     }
 
     // Agregar detalle a un plan de entrenamiento
     public long insertarDetallePlanEntrenamiento(DetallePlanEntrenamiento detallePlanEntrenamiento) {
-        return 0;
+        SQLiteDatabase dbHelper = null;
+        long resultado = -1;
+
+        try {
+            dbHelper = db.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+            values.put(DatabaseHelper.COLUMN_ID_PLAN_ENTRENAMIENTO, detallePlanEntrenamiento.getIdPlanEntrenamiento());
+            values.put(DatabaseHelper.COLUMN_ID_RUTINA, detallePlanEntrenamiento.getIdRutina());
+            values.put(DatabaseHelper.COLUMN_DIA, detallePlanEntrenamiento.getDia());
+            resultado = dbHelper.insert(DatabaseHelper.TABLE_DETALLE_PLAN_ENTRENAMIENTO, null, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (dbHelper != null) {
+                dbHelper.close();
+            }
+        }
+        return resultado;
     }
 
     // Eliminar una rutina del detalle de un plan de entrenamiento
     public int eliminarRutinaDetallePlanEntrenamiento(int idPlanEntrenamiento, int idRutina) {
-        return 0;
+        SQLiteDatabase dbHelper = null;
+        int resultado = -1;
+
+        try {
+            dbHelper = db.getWritableDatabase();
+            String whereClause = DatabaseHelper.COLUMN_ID_PLAN_ENTRENAMIENTO + " = ? AND " + DatabaseHelper.COLUMN_ID_RUTINA + " = ?";
+            String[] whereArgs = {String.valueOf(idPlanEntrenamiento), String.valueOf(idRutina)};
+            resultado = dbHelper.delete(DatabaseHelper.TABLE_DETALLE_PLAN_ENTRENAMIENTO, whereClause, whereArgs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (dbHelper != null) {
+                dbHelper.close();
+            }
+        }
+        return resultado;
     }
 
     // Obtener detalle de un plan de entrenamiento
     public List<DetallePlanEntrenamiento> obtenerDetallePlanEntrenamiento(int idPlanEntrenamiento) {
-        return null;
+        SQLiteDatabase dbHelper = null;
+        Cursor cursor = null;
+        List<DetallePlanEntrenamiento> listadoDetallePlanEntrenamiento = new ArrayList<>();
+
+        try {
+            dbHelper = db.getReadableDatabase();
+            String query = "SELECT * FROM " + DatabaseHelper.TABLE_DETALLE_PLAN_ENTRENAMIENTO + " WHERE " + DatabaseHelper.COLUMN_ID_PLAN_ENTRENAMIENTO + " = ?";
+            String[] selectionArgs = {String.valueOf(idPlanEntrenamiento)};
+            cursor = dbHelper.rawQuery(query, selectionArgs);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    DetallePlanEntrenamiento detallePlanEntrenamiento = new DetallePlanEntrenamiento();
+                    detallePlanEntrenamiento.setIdPlanEntrenamiento(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID_PLAN_ENTRENAMIENTO)));
+                    detallePlanEntrenamiento.setIdRutina(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID_RUTINA)));
+                    detallePlanEntrenamiento.setDia(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DIA)));
+                    listadoDetallePlanEntrenamiento.add(detallePlanEntrenamiento);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (dbHelper != null) {
+                dbHelper.close();
+            }
+        }
+        return listadoDetallePlanEntrenamiento;
     }
 
 }

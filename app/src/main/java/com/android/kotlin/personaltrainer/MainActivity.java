@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_planes:
                 replaceFragment(new VPlanEntrenamiento());
-                getSupportActionBar().setTitle("Planes de Rutina");
+                getSupportActionBar().setTitle("Planes de Entrenamiento");
                 break;
         }
     }

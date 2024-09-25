@@ -91,7 +91,6 @@ public class VCrearEjercicio extends AppCompatActivity {
                 return;
             }
 
-
             if (imageToStore == null) {
                 mostrarMensaje("Por favor, seleccione una imagen");
                 return;

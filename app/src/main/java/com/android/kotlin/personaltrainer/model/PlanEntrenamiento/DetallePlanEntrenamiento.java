@@ -4,15 +4,15 @@ public class DetallePlanEntrenamiento {
 
     private int idPlanEntrenamiento;
     private int idRutina;
-    private String dia_semana;
+    private String dia;
 
     public DetallePlanEntrenamiento() {
     }
 
-    public DetallePlanEntrenamiento(int idPlanEntrenamiento, int idRutina, String dia_semana) {
+    public DetallePlanEntrenamiento(int idPlanEntrenamiento, int idRutina, String dia) {
         this.idPlanEntrenamiento = idPlanEntrenamiento;
         this.idRutina = idRutina;
-        this.dia_semana = dia_semana;
+        this.dia = dia;
     }
 
     public int getIdPlanEntrenamiento() {
@@ -31,12 +31,12 @@ public class DetallePlanEntrenamiento {
         this.idRutina = idRutina;
     }
 
-    public String getDia_semana() {
-        return dia_semana;
+    public String getDia() {
+        return dia;
     }
 
-    public void setDia_semana(String dia_semana) {
-        this.dia_semana = dia_semana;
+    public void setDia(String dia) {
+        this.dia = dia;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class DetallePlanEntrenamiento {
         return "{" +
                 "idPlanEntrenamiento=" + idPlanEntrenamiento +
                 ", idRutina=" + idRutina +
-                ", dia_semana='" + dia_semana + '\'' +
+                ", dia_semana='" + dia + '\'' +
                 '}';
     }
 }
