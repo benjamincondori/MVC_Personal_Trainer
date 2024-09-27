@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.kotlin.personaltrainer.R;
 import com.android.kotlin.personaltrainer.model.Cliente.Cliente;
-import com.android.kotlin.personaltrainer.model.Ejercicio.Ejercicio;
-import com.android.kotlin.personaltrainer.view.Ejercicio.VEditarEjercicio;
 
 import java.util.List;
 

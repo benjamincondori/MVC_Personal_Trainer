@@ -18,6 +18,7 @@ import com.android.kotlin.personaltrainer.controller.CEjercicio;
 import com.android.kotlin.personaltrainer.model.CategoriaEjercicio.CategoriaEjercicio;
 import com.android.kotlin.personaltrainer.model.Ejercicio.Ejercicio;
 import com.android.kotlin.personaltrainer.utils.ToolbarUtils;
+import com.android.kotlin.personaltrainer.utils.UploadImage;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -25,6 +26,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.List;
 
 public class VCrearEjercicio extends AppCompatActivity {
+
+    private final int SELECT_ACTIVITY = 100;
+    private Uri imageUri;
 
     CEjercicio controller;
     List<CategoriaEjercicio> listadoCategorias;
@@ -36,12 +40,37 @@ public class VCrearEjercicio extends AppCompatActivity {
     MaterialButton btnSelectImage, btnClearImage;
     ImageView mediaPreview;
     String imageToStore;
+    ArrayAdapter<CategoriaEjercicio> adapter;
+    CategoriaEjercicio categoriaSeleccionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crear_ejercicio);
 
+        initComponents();
+
+        btnSelectImage.setOnClickListener(view -> {
+            UploadImage.seledtPhotoFromGallery(this, SELECT_ACTIVITY);
+        });
+
+        btnClearImage.setOnClickListener(view -> {
+            mediaPreview.setImageDrawable(null);
+            mediaPreview.setImageResource(R.drawable.ic_placeholder_image);
+            imageToStore = null;
+        });
+
+        guardarButton.setOnClickListener(view -> {
+            guardarEjercicio();
+        });
+
+        categoriaInput.setOnItemClickListener((adapterView, view, i, l) -> {
+            categoriaSeleccionada = (CategoriaEjercicio) adapterView.getItemAtPosition(i);
+        });
+
+    }
+
+    public void initComponents() {
         this.controller = new CEjercicio(this);
 
         this.nombreInput = findViewById(R.id.nombre_input);
@@ -58,57 +87,34 @@ public class VCrearEjercicio extends AppCompatActivity {
 
         ToolbarUtils.setupToolbar(this, toolbar);
 
-        // Listener para el botón de seleccionar imagen
-        btnSelectImage.setOnClickListener(view -> {
-            seleccionarImagenDesdeGaleria();
-        });
-
-        // Listener para el botón de limpiar imagen
-        btnClearImage.setOnClickListener(view -> {
-            // Elimina la imagen seleccionada, cargando un placeholder
-            mediaPreview.setImageDrawable(null);
-            mediaPreview.setImageResource(R.drawable.ic_placeholder_image);
-            imageToStore = null;
-        });
-
-        ArrayAdapter<CategoriaEjercicio> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listadoCategorias);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listadoCategorias);
         categoriaInput.setAdapter(adapter);
-
-
-        guardarButton.setOnClickListener(view -> {
-            String nombre = nombreInput.getEditText().getText().toString().trim();
-            String descripcion = descripcionInput.getEditText().getText().toString().trim();
-            String urlVideo = urlVideoInput.getEditText().getText().toString().trim();
-            CategoriaEjercicio categoria = obtenerCategoriaSeleccionada();
-
-            if (nombre.isEmpty() || descripcion.isEmpty() || urlVideo.isEmpty()) {
-                mostrarMensaje("Por favor, llene todos los campos");
-                return;
-            }
-
-            if (categoria == null) {
-                mostrarMensaje("Por favor, seleccione una categoría");
-                return;
-            }
-
-            if (imageToStore == null) {
-                mostrarMensaje("Por favor, seleccione una imagen");
-                return;
-            }
-
-            Ejercicio ejercicio = new Ejercicio(nombre, descripcion, imageToStore, urlVideo, categoria.getId());
-            this.controller.guardarEjercicio(ejercicio);
-        });
-
     }
 
-    private CategoriaEjercicio obtenerCategoriaSeleccionada() {
-        for (CategoriaEjercicio categoria : listadoCategorias) {
-            if (categoria.getNombre().equals(categoriaInput.getText().toString())) {
-                return categoria;
-            }
+    public void guardarEjercicio() {
+        String nombre = nombreInput.getEditText().getText().toString().trim();
+        String descripcion = descripcionInput.getEditText().getText().toString().trim();
+        String urlVideo = urlVideoInput.getEditText().getText().toString().trim();
+
+        if (nombre.isEmpty() || descripcion.isEmpty() || urlVideo.isEmpty()) {
+            mostrarMensaje("Por favor, llene todos los campos");
+            return;
         }
-        return null;
+
+        if (categoriaSeleccionada == null) {
+            mostrarMensaje("Por favor, seleccione una categoría");
+            return;
+        }
+
+//            Uri imageStore = null;
+//            if (imageUri != null) {
+//                UploadImage.saveImage(this, imageUri, 2L);
+//                imageStore = UploadImage.getImageUri(this, 2L);
+//                mostrarMensaje(imageStore.toString());
+//            }
+
+        Ejercicio ejercicio = new Ejercicio(nombre, descripcion, imageToStore, urlVideo, categoriaSeleccionada.getId());
+        this.controller.guardarEjercicio(ejercicio);
     }
 
     public void cargarCategorias(List<CategoriaEjercicio> listado) {
@@ -119,21 +125,14 @@ public class VCrearEjercicio extends AppCompatActivity {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 
-    private void seleccionarImagenDesdeGaleria() {
-//        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        this.startActivityForResult(intent, 100);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && requestCode == 100) {
-            Uri uri = data.getData();
-            imageToStore = uri.toString();
-            mediaPreview.setImageURI(uri);
+        if (resultCode == RESULT_OK && requestCode == SELECT_ACTIVITY) {
+            imageUri = data.getData();
+            imageToStore = imageUri.toString();
+            mediaPreview.setImageURI(imageUri);
         }
     }
 

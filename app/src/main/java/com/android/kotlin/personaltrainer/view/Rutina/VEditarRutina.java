@@ -29,6 +29,19 @@ public class VEditarRutina extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editar_rutina);
 
+        initComponents();
+        getAndSetIntentData();
+
+        actualizarButton.setOnClickListener(view -> {
+            guardarRutina();
+        });
+
+        this.eliminarButton.setOnClickListener(view -> {
+            eliminarRutina(rutinaActual.getId());
+        });
+    }
+
+    public void initComponents() {
         this.controller = new CRutina(this);
 
         this.nombreInput = findViewById(R.id.nombre_input_edit);
@@ -38,25 +51,19 @@ public class VEditarRutina extends AppCompatActivity {
         this.toolbar = findViewById(R.id.toolbar_rutina);
 
         ToolbarUtils.setupToolbar(this, toolbar);
+    }
 
-        this.getAndSetIntentData();
+    public void guardarRutina() {
+        String nombre = nombreInput.getEditText().getText().toString().trim();
+        String descripcion = descripcionInput.getEditText().getText().toString().trim();
 
-        this.actualizarButton.setOnClickListener(view -> {
-            String nombre = nombreInput.getEditText().getText().toString().trim();
-            String descripcion = descripcionInput.getEditText().getText().toString().trim();
+        if (nombre.isEmpty() || descripcion.isEmpty()) {
+            mostrarMensaje("Por favor, llene todos los campos");
+            return;
+        }
 
-            if (nombre.isEmpty() || descripcion.isEmpty()) {
-                mostrarMensaje("Por favor, llene todos los campos");
-                return;
-            }
-
-            Rutina rutina = new Rutina(rutinaActual.getId(), nombre, descripcion);
-            this.controller.actualizarRutina(rutina);
-        });
-
-        this.eliminarButton.setOnClickListener(view -> {
-            confirmDialog(rutinaActual.getId());
-        });
+        Rutina rutina = new Rutina(rutinaActual.getId(), nombre, descripcion);
+        this.controller.actualizarRutina(rutina);
     }
 
     public void mostrarMensaje(String mensaje) {
@@ -82,7 +89,7 @@ public class VEditarRutina extends AppCompatActivity {
         }
     }
 
-    private void confirmDialog(int id) {
+    private void eliminarRutina(int id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Eliminar rutina");
         builder.setMessage("¿Estás seguro de que deseas eliminar esta rutina?");

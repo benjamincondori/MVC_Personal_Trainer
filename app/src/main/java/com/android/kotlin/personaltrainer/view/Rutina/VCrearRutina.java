@@ -26,6 +26,14 @@ public class VCrearRutina extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crear_rutina);
 
+        initComponents();
+
+        guardarButton.setOnClickListener(view -> {
+            guardarRutina();
+        });
+    }
+
+    public void initComponents() {
         this.controller = new CRutina(this);
 
         this.nombreInput = findViewById(R.id.nombre_input);
@@ -34,20 +42,19 @@ public class VCrearRutina extends AppCompatActivity {
         this.toolbar = findViewById(R.id.toolbar_rutina);
 
         ToolbarUtils.setupToolbar(this, toolbar);
+    }
 
-        this.guardarButton.setOnClickListener(view -> {
-            String nombre = nombreInput.getEditText().getText().toString().trim();
-            String descripcion = descripcionInput.getEditText().getText().toString().trim();
+    public void guardarRutina() {
+        String nombre = nombreInput.getEditText().getText().toString().trim();
+        String descripcion = descripcionInput.getEditText().getText().toString().trim();
 
-            if (nombre.isEmpty() || descripcion.isEmpty()) {
-                mostrarMensaje("Por favor, llene todos los campos");
-                return;
-            }
+        if (nombre.isEmpty() || descripcion.isEmpty()) {
+            mostrarMensaje("Por favor, llene todos los campos");
+            return;
+        }
 
-            Rutina rutina = new Rutina(nombre, descripcion);
-            this.controller.guardarRutina(rutina);
-        });
-
+        Rutina rutina = new Rutina(nombre, descripcion);
+        this.controller.guardarRutina(rutina);
     }
 
     public void mostrarMensaje(String mensaje) {

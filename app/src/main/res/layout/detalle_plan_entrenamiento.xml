@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.PlanEntrenamiento.VDetalleEntrenamiento">
+    tools:context=".view.PlanEntrenamiento.VDetallePlanEntrenamiento">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
@@ -138,19 +138,45 @@
             android:text="Plan Semanal"/>
     </LinearLayout>
 
-    <!-- Botón para guardar los datos del detalle -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/agregar_rutina_button"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/primaryColor"
-        android:text="Añadir Rutina"
-        android:textColor="@color/white"
-        app:icon="@drawable/ic_add"
-        app:iconGravity="textStart"
-        app:iconPadding="10dp"
-        app:iconTint="@android:color/white" />
+        android:orientation="horizontal">
+
+        <!-- Botón para guardar los datos del detalle -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/agregar_rutina_button"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/primaryColor"
+            android:text="Añadir Rutina"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_add"
+            app:iconGravity="textStart"
+            app:iconPadding="10dp"
+            app:iconTint="@android:color/white" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Botón para generar el pdf del detalle -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/generar_pdf_button"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/primaryColor"
+            android:text="Generar Pdf"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_download"
+            app:iconGravity="textStart"
+            app:iconPadding="10dp"
+            app:iconTint="@android:color/white" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerDetallePlanes"

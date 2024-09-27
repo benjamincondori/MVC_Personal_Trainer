@@ -26,6 +26,14 @@ public class VCrearCategoriaEjercicio extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crear_categoria_ejercicio);
 
+        initComponents();
+
+        this.guardarButton.setOnClickListener(view -> {
+            guardarCategoriaEjercicio();
+        });
+    }
+
+    public void initComponents() {
         this.controller = new CCategoriaEjercicio(this);
 
         this.nombreInput = findViewById(R.id.nombre_input);
@@ -34,20 +42,19 @@ public class VCrearCategoriaEjercicio extends AppCompatActivity {
         this.toolbar = findViewById(R.id.toolbar_tipo_ejercicio);
 
         ToolbarUtils.setupToolbar(this, toolbar);
+    }
 
-        this.guardarButton.setOnClickListener(view -> {
-            String nombre = nombreInput.getEditText().getText().toString().trim();
-            String descripcion = descripcionInput.getEditText().getText().toString().trim();
+    public void guardarCategoriaEjercicio() {
+        String nombre = nombreInput.getEditText().getText().toString().trim();
+        String descripcion = descripcionInput.getEditText().getText().toString().trim();
 
-            if (nombre.isEmpty() || descripcion.isEmpty()) {
-                mostrarMensaje("Por favor, llene todos los campos");
-                return;
-            }
+        if (nombre.isEmpty() || descripcion.isEmpty()) {
+            mostrarMensaje("Por favor, llene todos los campos");
+            return;
+        }
 
-            CategoriaEjercicio categoriaEjercicio = new CategoriaEjercicio(nombre, descripcion);
-            this.controller.guardarCategoriaEjercicio(categoriaEjercicio);
-        });
-
+        CategoriaEjercicio categoriaEjercicio = new CategoriaEjercicio(nombre, descripcion);
+        this.controller.guardarCategoriaEjercicio(categoriaEjercicio);
     }
 
     public void mostrarMensaje(String mensaje) {

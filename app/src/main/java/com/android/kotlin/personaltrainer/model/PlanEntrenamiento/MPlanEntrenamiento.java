@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.android.kotlin.personaltrainer.database.DatabaseHelper;
+import com.android.kotlin.personaltrainer.model.Cliente.Cliente;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -275,6 +276,41 @@ public class MPlanEntrenamiento {
             }
         }
         return listadoDetallePlanEntrenamiento;
+    }
+
+   // Obtener el cliente al que le pertence un plan de entrenamiento
+    public Cliente obtenerClientePlanEntrenamiento(int idCliente) {
+        SQLiteDatabase dbHelper = null;
+        Cursor cursor = null;
+        Cliente cliente = null;
+
+        try {
+            dbHelper = db.getReadableDatabase();
+            String query = "SELECT * FROM " + DatabaseHelper.TABLE_CLIENTE + " WHERE " + DatabaseHelper.COLUMN_ID + " = ?";
+            String[] selectionArgs = {String.valueOf(idCliente)};
+            cursor = dbHelper.rawQuery(query, selectionArgs);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                cliente = new Cliente();
+                cliente.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID)));
+                cliente.setNombre(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOMBRE)));
+                cliente.setApellido(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_APELLIDO)));
+                cliente.setEmail(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_EMAIL)));
+                cliente.setGenero(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_GENERO)));
+                cliente.setTelefono(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_TELEFONO)));
+                cliente.setFechaNacimiento(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_FECHA_NACIMIENTO)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (dbHelper != null) {
+                dbHelper.close();
+            }
+        }
+        return cliente;
     }
 
 }

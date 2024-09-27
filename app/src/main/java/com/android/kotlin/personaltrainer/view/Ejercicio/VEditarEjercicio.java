@@ -19,12 +19,15 @@ import com.android.kotlin.personaltrainer.controller.CEjercicio;
 import com.android.kotlin.personaltrainer.model.CategoriaEjercicio.CategoriaEjercicio;
 import com.android.kotlin.personaltrainer.model.Ejercicio.Ejercicio;
 import com.android.kotlin.personaltrainer.utils.ToolbarUtils;
+import com.android.kotlin.personaltrainer.utils.UploadImage;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
 
 public class VEditarEjercicio extends AppCompatActivity {
+
+    private final int SELECT_ACTIVITY = 100;
 
     CEjercicio controller;
     List<CategoriaEjercicio> listadoCategorias;
@@ -37,6 +40,8 @@ public class VEditarEjercicio extends AppCompatActivity {
     MaterialButton btnSelectImage, btnClearImage;
     ImageView mediaPreview;
     String imageToStore;
+    ArrayAdapter<CategoriaEjercicio> adapter;
+    CategoriaEjercicio categoriaSeleccionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +49,31 @@ public class VEditarEjercicio extends AppCompatActivity {
         setContentView(R.layout.editar_ejercicio);
 
         this.initComponents();
-
-        ToolbarUtils.setupToolbar(this, toolbar);
-
-        controller.cargarCategorias();
-
-        ArrayAdapter<CategoriaEjercicio> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listadoCategorias);
-        categoriaInput.setAdapter(adapter);
-
         getAndSetIntentData();
-        setListeners();
+
+        btnSelectImage.setOnClickListener(view -> {
+            UploadImage.seledtPhotoFromGallery(this, SELECT_ACTIVITY);
+        });
+
+        btnClearImage.setOnClickListener(view -> {
+            mediaPreview.setImageDrawable(null);
+            mediaPreview.setImageResource(R.drawable.ic_placeholder_image);
+            imageToStore = null;
+        });
+
+        this.actualizarButton.setOnClickListener(view -> {
+            actualizarEjercicio();
+        });
+
+        this.eliminarButton.setOnClickListener(view -> {
+            eliminarEjercicio(ejercicioActual.getId());
+        });
+
+        categoriaInput.setOnItemClickListener((adapterView, view, i, l) -> {
+            categoriaSeleccionada = (CategoriaEjercicio) adapterView.getItemAtPosition(i);
+        });
     }
 
-    // Método para inicializar los elementos de la vista
     private void initComponents() {
         this.controller = new CEjercicio(this);
 
@@ -70,84 +87,41 @@ public class VEditarEjercicio extends AppCompatActivity {
         this.btnSelectImage = findViewById(R.id.btn_subir_imagen);
         this.btnClearImage = findViewById(R.id.btn_remover_imagen);
         this.mediaPreview = findViewById(R.id.media_preview);
+
+        ToolbarUtils.setupToolbar(this, toolbar);
+
+        controller.cargarCategorias();
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listadoCategorias);
+        categoriaInput.setAdapter(adapter);
+
     }
 
-    // Método para configurar los listeners de los elementos de la vista
-    private void setListeners() {
+    public void actualizarEjercicio() {
+        String nombre = nombreInput.getEditText().getText().toString().trim();
+        String descripcion = descripcionInput.getEditText().getText().toString().trim();
+        String urlVideo = urlVideoInput.getEditText().getText().toString().trim();
 
-        // Listener para el botón de seleccionar imagen
-        btnSelectImage.setOnClickListener(view -> {
-            seleccionarImagenDesdeGaleria();
-        });
+        if (nombre.isEmpty() || descripcion.isEmpty() || urlVideo.isEmpty()) {
+            mostrarMensaje("Por favor, llene todos los campos");
+            return;
+        }
 
-        // Listener para el botón de limpiar imagen
-        btnClearImage.setOnClickListener(view -> {
-            mediaPreview.setImageDrawable(null);
-            mediaPreview.setImageResource(R.drawable.ic_placeholder_image);
-            imageToStore = null;
-        });
-
-        // Listener para el botón de actualizar
-        this.actualizarButton.setOnClickListener(view -> {
-            String nombre = nombreInput.getEditText().getText().toString().trim();
-            String descripcion = descripcionInput.getEditText().getText().toString().trim();
-            String urlVideo = urlVideoInput.getEditText().getText().toString().trim();
-            CategoriaEjercicio categoria = obtenerCategoriaSeleccionada();
-
-            if (nombre.isEmpty() || descripcion.isEmpty() || urlVideo.isEmpty()) {
-                mostrarMensaje("Por favor, llene todos los campos");
-                return;
-            }
-
-            if (categoria == null) {
-                mostrarMensaje("Por favor, seleccione una categoría");
-                return;
-            }
+        if (categoriaSeleccionada == null) {
+            mostrarMensaje("Por favor, seleccione una categoría");
+            return;
+        }
 
 //            if (imageToStore == null) {
 //                mostrarMensaje("Por favor, seleccione una imagen");
 //                return;
 //            }
 
-            Ejercicio ejercicio = new Ejercicio(ejercicioActual.getId(), nombre, descripcion, imageToStore, urlVideo, categoria.getId());
-            this.controller.actualizarEjercicio(ejercicio);
-        });
-
-        this.eliminarButton.setOnClickListener(view -> {
-            confirmDialog(ejercicioActual.getId());
-        });
-
+        Ejercicio ejercicio = new Ejercicio(ejercicioActual.getId(), nombre, descripcion, imageToStore, urlVideo, categoriaSeleccionada.getId());
+        this.controller.actualizarEjercicio(ejercicio);
     }
 
-    private void getAndSetIntentData() {
-        if (getIntent().hasExtra("id") && getIntent().hasExtra("nombre") &&
-                getIntent().hasExtra("descripcion") && getIntent().hasExtra("imagen") &&
-                getIntent().hasExtra("urlVideo") && getIntent().hasExtra("categoriaId")
-        ) {
-            // Getting data from intent
-            int id = Integer.parseInt(getIntent().getStringExtra("id"));
-            String nombre = getIntent().getStringExtra("nombre");
-            String descripcion = getIntent().getStringExtra("descripcion");
-            String imagen = getIntent().getStringExtra("imagen");
-            String urlVideo = getIntent().getStringExtra("urlVideo");
-            int categoriaId = getIntent().getIntExtra("categoriaId", 0);
-
-            // Setting data
-            nombreInput.getEditText().setText(nombre);
-            descripcionInput.getEditText().setText(descripcion);
-            urlVideoInput.getEditText().setText(urlVideo);
-
-            CategoriaEjercicio categoria = obtenerCategoria(categoriaId);
-            categoriaInput.setText(categoria != null ? categoria.getNombre() : null, false);
-//            mediaPreview.setImageURI(Uri.parse(imagen));
-
-            this.ejercicioActual = new Ejercicio(id, nombre, descripcion, imagen, urlVideo, categoriaId);
-        } else {
-            Toast.makeText(this, "No se encontraron datos", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void confirmDialog(int id) {
+    public void eliminarEjercicio(int id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Eliminar ejercicio");
         builder.setMessage("¿Estás seguro de que deseas eliminar este ejercicio?");
@@ -161,18 +135,36 @@ public class VEditarEjercicio extends AppCompatActivity {
         builder.create().show();
     }
 
+
+    private void getAndSetIntentData() {
+        if (getIntent().hasExtra("id") && getIntent().hasExtra("nombre") &&
+                getIntent().hasExtra("descripcion") && getIntent().hasExtra("imagen") &&
+                getIntent().hasExtra("urlVideo") && getIntent().hasExtra("categoriaId")
+        ) {
+            int id = Integer.parseInt(getIntent().getStringExtra("id"));
+            String nombre = getIntent().getStringExtra("nombre");
+            String descripcion = getIntent().getStringExtra("descripcion");
+            String imagen = getIntent().getStringExtra("imagen");
+            String urlVideo = getIntent().getStringExtra("urlVideo");
+            int categoriaId = getIntent().getIntExtra("categoriaId", 0);
+
+            nombreInput.getEditText().setText(nombre);
+            descripcionInput.getEditText().setText(descripcion);
+            urlVideoInput.getEditText().setText(urlVideo);
+
+            categoriaSeleccionada = obtenerCategoria(categoriaId);
+            categoriaInput.setText(categoriaSeleccionada != null ? categoriaSeleccionada.getNombre() : null, false);
+//            mediaPreview.setImageURI(Uri.parse(imagen));
+
+            this.ejercicioActual = new Ejercicio(id, nombre, descripcion, imagen, urlVideo, categoriaSeleccionada.getId());
+        } else {
+            Toast.makeText(this, "No se encontraron datos", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private CategoriaEjercicio obtenerCategoria(int id) {
         for (CategoriaEjercicio categoria : listadoCategorias) {
             if (categoria.getId() == id) {
-                return categoria;
-            }
-        }
-        return null;
-    }
-    
-    private CategoriaEjercicio obtenerCategoriaSeleccionada() {
-        for (CategoriaEjercicio categoria : listadoCategorias) {
-            if (categoria.getNombre().equals(categoriaInput.getText().toString())) {
                 return categoria;
             }
         }
@@ -187,18 +179,11 @@ public class VEditarEjercicio extends AppCompatActivity {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 
-    private void seleccionarImagenDesdeGaleria() {
-//        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        this.startActivityForResult(intent, 100);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && requestCode == 100) {
+        if (resultCode == RESULT_OK && requestCode == SELECT_ACTIVITY) {
             Uri uri = data.getData();
             imageToStore = uri.toString();
             mediaPreview.setImageURI(uri);

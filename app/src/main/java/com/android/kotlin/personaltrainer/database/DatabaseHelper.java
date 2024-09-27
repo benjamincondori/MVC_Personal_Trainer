@@ -12,14 +12,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Tablas
     public static final String TABLE_CLIENTE = "Cliente";
     public static final String TABLE_ESTADO_FISICO = "Estado_Fisico";
-    public static final String TABLE_OBJETIVO = "Objetivo";
     public static final String TABLE_EJERCICIO = "Ejercicio";
     public static final String TABLE_DETALLE_RUTINA_EJERCICIO = "Detalle_Rutina_Ejercicio";
     public static final String TABLE_RUTINA = "Rutina";
     public static final String TABLE_PLAN_ENTRENAMIENTO = "Plan_Entrenamiento";
     public static final String TABLE_CATEGORIA_EJERCICIO = "Categoria_Ejercicio";
-    public static final String TABLE_CLIENTE_OBJETIVO = "Cliente_Objetivo";
-    public static final String TABLE_PLAN_RUTINA_OBJETIVO = "Plan_Rutina_Objetivo";
     public static final String TABLE_DETALLE_PLAN_ENTRENAMIENTO = "Detalle_Plan_Entrenamiento";
 
     // Columnas En Común
@@ -59,16 +56,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID_EJERCICIO = "id_ejercicio";
     public static final String COLUMN_ID_RUTINA = "id_rutina";
 
-    // Columnas Tabla Cliente Objetivo
-    public static final String COLUMN_ESTADO = "estado";
-    public static final String COLUMN_ID_OBJETIVO = "id_objetivo";
-
-    // Columnas Tabla Plan Rutina Objetivo
+    // Columnas Tabla Plan Entrenamiento
     public static final String COLUMN_ID_PLAN_ENTRENAMIENTO = "id_plan_entrenamiento";
 
     // Columnas Tabla Detalle Plan Rutina
     public static final String COLUMN_DIA = "dia";
-
 
     // Creación de tablas
     private static final String CREATE_TABLE_CLIENTE = "CREATE TABLE " + TABLE_CLIENTE + " (" +
@@ -90,11 +82,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLUMN_ENFERMEDADES + " TEXT," +
             COLUMN_ID_CLIENTE + " INTEGER NOT NULL," +
             "FOREIGN KEY (" + COLUMN_ID_CLIENTE + ") REFERENCES " + TABLE_CLIENTE + "(" + COLUMN_ID + ") ON DELETE CASCADE" +
-            ");";
-
-    private static final String CREATE_TABLE_OBJETIVO = "CREATE TABLE " + TABLE_OBJETIVO + " (" +
-            COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            COLUMN_DESCRIPCION + " TEXT NOT NULL" +
             ");";
 
     private static final String CREATE_TABLE_CATEGORIA_EJERCICIO = "CREATE TABLE " + TABLE_CATEGORIA_EJERCICIO + " (" +
@@ -141,23 +128,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "FOREIGN KEY (" + COLUMN_ID_RUTINA + ") REFERENCES " + TABLE_RUTINA + "(" + COLUMN_ID + ") ON DELETE CASCADE" +
             ");";
 
-    private static final String CREATE_TABLE_CLIENTE_OBJETIVO = "CREATE TABLE " + TABLE_CLIENTE_OBJETIVO + " (" +
-            COLUMN_ESTADO + " TEXT NOT NULL," +
-            COLUMN_ID_CLIENTE + " INTEGER NOT NULL," +
-            COLUMN_ID_OBJETIVO + " INTEGER NOT NULL," +
-            "PRIMARY KEY (" + COLUMN_ID_CLIENTE + ", " + COLUMN_ID_OBJETIVO + ")," +
-            "FOREIGN KEY (" + COLUMN_ID_CLIENTE + ") REFERENCES " + TABLE_CLIENTE + "(" + COLUMN_ID + ") ON DELETE CASCADE," +
-            "FOREIGN KEY (" + COLUMN_ID_OBJETIVO + ") REFERENCES " + TABLE_OBJETIVO + "(" + COLUMN_ID + ") ON DELETE CASCADE" +
-            ");";
-
-    private static final String CREATE_TABLE_PLAN_RUTINA_OBJETIVO = "CREATE TABLE " + TABLE_PLAN_RUTINA_OBJETIVO + " (" +
-            COLUMN_ID_PLAN_ENTRENAMIENTO + " INTEGER NOT NULL," +
-            COLUMN_ID_OBJETIVO + " INTEGER NOT NULL," +
-            "PRIMARY KEY (" + COLUMN_ID_PLAN_ENTRENAMIENTO + ", " + COLUMN_ID_OBJETIVO + ")," +
-            "FOREIGN KEY (" + COLUMN_ID_PLAN_ENTRENAMIENTO + ") REFERENCES " + TABLE_PLAN_ENTRENAMIENTO + "(" + COLUMN_ID + ") ON DELETE CASCADE," +
-            "FOREIGN KEY (" + COLUMN_ID_OBJETIVO + ") REFERENCES " + TABLE_OBJETIVO + "(" + COLUMN_ID + ") ON DELETE CASCADE" +
-            ");";
-
     private static final String CREATE_TABLE_DETALLE_PLAN_ENTRENAMIENTO = "CREATE TABLE " + TABLE_DETALLE_PLAN_ENTRENAMIENTO + " (" +
             COLUMN_ID_PLAN_ENTRENAMIENTO + " INTEGER NOT NULL," +
             COLUMN_ID_RUTINA + " INTEGER NOT NULL," +
@@ -175,28 +145,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_CLIENTE);
         db.execSQL(CREATE_TABLE_ESTADO_FISICO);
-        db.execSQL(CREATE_TABLE_OBJETIVO);
         db.execSQL(CREATE_TABLE_CATEGORIA_EJERCICIO);
         db.execSQL(CREATE_TABLE_EJERCICIO);
         db.execSQL(CREATE_TABLE_DETALLE_RUTINA_EJERCICIO);
         db.execSQL(CREATE_TABLE_RUTINA);
         db.execSQL(CREATE_TABLE_PLAN_ENTRENAMIENTO);
-        db.execSQL(CREATE_TABLE_CLIENTE_OBJETIVO);
-        db.execSQL(CREATE_TABLE_PLAN_RUTINA_OBJETIVO);
         db.execSQL(CREATE_TABLE_DETALLE_PLAN_ENTRENAMIENTO);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DETALLE_PLAN_ENTRENAMIENTO);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLIENTE_OBJETIVO);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAN_RUTINA_OBJETIVO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAN_ENTRENAMIENTO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_RUTINA);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DETALLE_RUTINA_EJERCICIO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EJERCICIO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORIA_EJERCICIO);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_OBJETIVO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ESTADO_FISICO);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLIENTE);
         onCreate(db);

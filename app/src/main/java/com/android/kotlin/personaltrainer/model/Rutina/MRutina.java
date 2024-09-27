@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.android.kotlin.personaltrainer.database.DatabaseHelper;
+import com.android.kotlin.personaltrainer.model.Ejercicio.Ejercicio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -221,6 +222,84 @@ public class MRutina {
             }
         }
         return listadoDetalle;
+    }
+
+    // Obtener los ejercicios de una rutina
+    public List<Ejercicio> obtenerEjerciciosRutina(int idRutina) {
+        SQLiteDatabase dbHelper = null;
+        Cursor cursor = null;
+        List<Ejercicio> listadoEjercicios = new ArrayList<>();
+
+        try {
+            dbHelper = db.getReadableDatabase();
+
+            String query = "SELECT e.* FROM " + DatabaseHelper.TABLE_EJERCICIO + " e " +
+                    "INNER JOIN " + DatabaseHelper.TABLE_DETALLE_RUTINA_EJERCICIO + " d ON e." + DatabaseHelper.COLUMN_ID + " = d." + DatabaseHelper.COLUMN_ID_EJERCICIO +
+                    " WHERE d." + DatabaseHelper.COLUMN_ID_RUTINA + " = ?";
+
+            String[] selectionArgs = {String.valueOf(idRutina)};
+            cursor = dbHelper.rawQuery(query, selectionArgs);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    Ejercicio ejercicio = new Ejercicio();
+                    ejercicio.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID)));
+                    ejercicio.setNombre(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOMBRE)));
+                    ejercicio.setDescripcion(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DESCRIPCION)));
+                    ejercicio.setImagen(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_IMAGEN)));
+                    ejercicio.setUrlVideo(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_URL_VIDEO)));
+                    listadoEjercicios.add(ejercicio);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (dbHelper != null) {
+                dbHelper.close();
+            }
+        }
+        return listadoEjercicios;
+    }
+
+    // Obtener los detalles de la rutina
+    public List<DetalleRutinaEjercicio> obtenerDetallesRutina(int idRutina) {
+        SQLiteDatabase dbHelper = null;
+        Cursor cursor = null;
+        List<DetalleRutinaEjercicio> listadoDetalles = new ArrayList<>();
+
+        try {
+            dbHelper = db.getReadableDatabase();
+
+            String query = "SELECT * FROM " + DatabaseHelper.TABLE_DETALLE_RUTINA_EJERCICIO +
+                    " WHERE " + DatabaseHelper.COLUMN_ID_RUTINA + " = ?";
+            String[] selectionArgs = {String.valueOf(idRutina)};
+            cursor = dbHelper.rawQuery(query, selectionArgs);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    DetalleRutinaEjercicio detalle = new DetalleRutinaEjercicio();
+                    detalle.setIdRutina(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID_RUTINA)));
+                    detalle.setIdEjercicio(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID_EJERCICIO)));
+                    detalle.setSeries(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_SERIES)));
+                    detalle.setRepeticiones(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_REPETICIONES)));
+                    detalle.setDescanso(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DESCANSO)));
+                    listadoDetalles.add(detalle);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (dbHelper != null) {
+                dbHelper.close();
+            }
+        }
+        return listadoDetalles;
     }
 
 }

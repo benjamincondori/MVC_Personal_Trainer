@@ -62,70 +62,41 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
-
-    <!-- Contenedor del FAB con el texto al lado -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:layout_marginBottom="70dp">
-
-        <!-- Texto para el FAB -->
-        <TextView
-            android:id="@+id/fab_actualizar_text"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Actualizar"
-            android:textColor="@color/primaryColor"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:visibility="visible" />
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_margin="16dp">
 
-        <!-- FAB Eliminar -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_actualizar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Actualizar"
-            android:src="@drawable/ic_save"
-            android:layout_margin="16dp"
-            android:backgroundTint="@color/primaryColor"
-            app:tint="@color/white" />
+            <!-- Botón para actualizar los datos del estado físico -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/actualizar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/primaryColor"
+                android:text="Actualizar"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_save"
+                app:iconGravity="textStart"
+                app:iconPadding="15dp"
+                app:iconTint="@android:color/white"
+                android:layout_marginEnd="20dp"/>
 
-    </LinearLayout>
+            <!-- Botón para eliminar los datos del estado físico -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/eliminar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:backgroundTint="@android:color/holo_red_dark"
+                android:text="Eliminar"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_delete"
+                app:iconGravity="textStart"
+                app:iconPadding="15dp"
+                app:iconTint="@android:color/white" />
 
-    <!-- Contenedor del FAB con el texto al lado -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <!-- Texto para el FAB -->
-        <TextView
-            android:id="@+id/fab_eliminar_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Eliminar"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:visibility="visible" />
-
-        <!-- FAB Eliminar -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_eliminar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Eliminar"
-            android:src="@drawable/ic_delete"
-            android:layout_margin="16dp"
-            android:backgroundTint="@android:color/holo_red_dark"
-            app:tint="@color/white" />
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,12 +31,27 @@ public class VCrearEstadoFisico extends AppCompatActivity {
     TextInputLayout alturaInput, pesoInput, enfermedadesInput;
     Button guardarButton;
     Toolbar toolbar;
+    ArrayAdapter<Cliente> adapter;
+    Cliente clienteSeleccionado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crear_estado_fisico);
 
+        initComponents();
+
+        guardarButton.setOnClickListener(view -> {
+            guardarEstadoFisico();
+        });
+
+        clienteInput.setOnItemClickListener((adapterView, view, i, l) -> {
+            clienteSeleccionado = (Cliente) adapterView.getItemAtPosition(i);
+        });
+
+    }
+
+    public void initComponents() {
         this.controller = new CEstadoFisico(this);
 
         this.clienteInput = findViewById(R.id.cliente_input);
@@ -49,49 +65,37 @@ public class VCrearEstadoFisico extends AppCompatActivity {
 
         ToolbarUtils.setupToolbar(this, toolbar);
 
-        ArrayAdapter<Cliente> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listadoClientes);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listadoClientes);
         clienteInput.setAdapter(adapter);
+    }
 
-        guardarButton.setOnClickListener(view -> {
-            String estaturaStr = alturaInput.getEditText().getText().toString().trim();
-            String pesoStr = pesoInput.getEditText().getText().toString().trim();
-            String enfermedades = enfermedadesInput.getEditText().getText().toString().trim();
-            String fecha = obtenerFechaActual();
+    public void guardarEstadoFisico() {
+        String estaturaStr = alturaInput.getEditText().getText().toString().trim();
+        String pesoStr = pesoInput.getEditText().getText().toString().trim();
+        String enfermedades = enfermedadesInput.getEditText().getText().toString().trim();
+        String fecha = obtenerFechaActual();
 
-            float estatura = estaturaStr.isEmpty() ? 0 : Float.parseFloat(estaturaStr);
-            float peso = pesoStr.isEmpty() ? 0 : Float.parseFloat(pesoStr);
+        float estatura = estaturaStr.isEmpty() ? 0 : Float.parseFloat(estaturaStr);
+        float peso = pesoStr.isEmpty() ? 0 : Float.parseFloat(pesoStr);
 
-            Cliente cliente = obtenerClienteSeleccionada();
+        if (estatura == 0 || peso == 0) {
+            mostrarMensaje("Por favor, complete todos los campos");
+            return;
+        }
 
-            if (estatura == 0 || peso == 0) {
-                mostrarMensaje("Por favor, complete todos los campos");
-                return;
-            }
+        if (clienteSeleccionado == null) {
+            mostrarMensaje("Por favor, seleccione un cliente");
+            return;
+        }
 
-            if (cliente == null) {
-                mostrarMensaje("Por favor, seleccione un cliente");
-                return;
-            }
-
-            EstadoFisico estadoFisico = new EstadoFisico(estatura, peso, fecha, enfermedades, cliente.getId());
-            this.controller.guardarEstadoFisico(estadoFisico);
-        });
-
+        EstadoFisico estadoFisico = new EstadoFisico(estatura, peso, fecha, enfermedades, clienteSeleccionado.getId());
+        this.controller.guardarEstadoFisico(estadoFisico);
     }
 
     private String obtenerFechaActual() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return dateFormat.format(calendar.getTime());
-    }
-
-    private Cliente obtenerClienteSeleccionada() {
-        for (Cliente cliente : listadoClientes) {
-            if (cliente.getNombreCompleto().equals(clienteInput.getText().toString())) {
-                return cliente;
-            }
-        }
-        return null;
     }
 
     public void cargarClientes(List<Cliente> listado) {

@@ -4,9 +4,11 @@ import android.content.Context;
 
 import com.android.kotlin.personaltrainer.model.Cliente.Cliente;
 import com.android.kotlin.personaltrainer.model.Cliente.MCliente;
+import com.android.kotlin.personaltrainer.model.Ejercicio.Ejercicio;
 import com.android.kotlin.personaltrainer.model.PlanEntrenamiento.DetallePlanEntrenamiento;
 import com.android.kotlin.personaltrainer.model.PlanEntrenamiento.MPlanEntrenamiento;
 import com.android.kotlin.personaltrainer.model.PlanEntrenamiento.PlanEntrenamiento;
+import com.android.kotlin.personaltrainer.model.Rutina.DetalleRutinaEjercicio;
 import com.android.kotlin.personaltrainer.model.Rutina.MRutina;
 import com.android.kotlin.personaltrainer.model.Rutina.Rutina;
 import com.android.kotlin.personaltrainer.view.PlanEntrenamiento.VCrearPlanEntrenamiento;
@@ -104,6 +106,16 @@ public class CPlanEntrenamiento {
     public void cargarCliente(int idCliente) {
         Cliente cliente = this.modeloCliente.obtenerClientePorId(idCliente);
         this.viewDetalle.cargarCliente(cliente);
+    }
+
+    public void obtenerEjerciciosDeLaRutina(int idRutina) {
+        List<Ejercicio> ejercicios = this.modeloRutina.obtenerEjerciciosRutina(idRutina);
+        this.viewDetalle.cargarEjercicios(ejercicios);
+    }
+
+    public void obtenerDetalleRutinas(int idRutina) {
+        List<DetalleRutinaEjercicio> detalleRutinas = this.modeloRutina.obtenerDetallesRutina(idRutina);
+        this.viewDetalle.cargarDetalleRutinas(detalleRutinas);
     }
 
 }

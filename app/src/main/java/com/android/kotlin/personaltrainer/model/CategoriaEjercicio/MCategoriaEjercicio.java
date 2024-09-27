@@ -87,11 +87,11 @@ public class MCategoriaEjercicio {
         return resultado;
     }
 
-    // Obtener todos los tipos de ejercicios
+    // Obtener todos las categorias de ejrcicio
     public List<CategoriaEjercicio> obtenerTodasLasCategorias() {
         SQLiteDatabase dbHelper = null;
         Cursor cursor = null;
-        List<CategoriaEjercicio> listadoTiposEjercicios = new ArrayList<>();
+        List<CategoriaEjercicio> listadoCategoriaEjercicios = new ArrayList<>();
 
         try {
             dbHelper = db.getReadableDatabase();
@@ -105,7 +105,7 @@ public class MCategoriaEjercicio {
                     categoriaEjercicio.setId(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_ID)));
                     categoriaEjercicio.setNombre(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_NOMBRE)));
                     categoriaEjercicio.setDescripcion(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_DESCRIPCION)));
-                    listadoTiposEjercicios.add(categoriaEjercicio);
+                    listadoCategoriaEjercicios.add(categoriaEjercicio);
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
@@ -118,7 +118,7 @@ public class MCategoriaEjercicio {
                 dbHelper.close();
             }
         }
-        return listadoTiposEjercicios;
+        return listadoCategoriaEjercicios;
     }
 
 }

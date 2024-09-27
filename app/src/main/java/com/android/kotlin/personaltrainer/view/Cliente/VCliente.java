@@ -56,7 +56,6 @@ public class VCliente extends Fragment {
         this.listadoClientes = listado;
     }
 
-
     public void verificarVacio() {
         if (this.listadoClientes.isEmpty()) {
             this.emptyLayout.setVisibility(LinearLayout.VISIBLE);

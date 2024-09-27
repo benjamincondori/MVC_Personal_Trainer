@@ -32,12 +32,31 @@ public class VEditarEstadoFisico extends AppCompatActivity {
     TextInputLayout alturaInput, pesoInput, enfermedadesInput;
     Button actualizarButton, eliminarButton;
     Toolbar toolbar;
+    Cliente clienteSeleccionado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editar_estado_fisico);
 
+        initComponents();
+        getAndSetIntentData();
+
+        actualizarButton.setOnClickListener(view -> {
+            actualizarEstadoFisico();
+        });
+
+        eliminarButton.setOnClickListener(view -> {
+            eliminarEstadoFisico(estadoFisicoActual.getId());
+        });
+
+        clienteInput.setOnItemClickListener((adapterView, view, i, l) -> {
+            clienteSeleccionado = (Cliente) adapterView.getItemAtPosition(i);
+        });
+
+    }
+
+    public void initComponents() {
         this.controller = new CEstadoFisico(this);
 
         this.clienteInput = findViewById(R.id.cliente_input);
@@ -54,38 +73,29 @@ public class VEditarEstadoFisico extends AppCompatActivity {
 
         ArrayAdapter<Cliente> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listadoClientes);
         clienteInput.setAdapter(adapter);
+    }
 
-        getAndSetIntentData();
+    public void actualizarEstadoFisico() {
+        String estaturaStr = alturaInput.getEditText().getText().toString().trim();
+        String pesoStr = pesoInput.getEditText().getText().toString().trim();
+        String enfermedades = enfermedadesInput.getEditText().getText().toString().trim();
+        String fecha = obtenerFechaActual();
 
-        actualizarButton.setOnClickListener(view -> {
-            String estaturaStr = alturaInput.getEditText().getText().toString().trim();
-            String pesoStr = pesoInput.getEditText().getText().toString().trim();
-            String enfermedades = enfermedadesInput.getEditText().getText().toString().trim();
-            String fecha = obtenerFechaActual();
+        float estatura = estaturaStr.isEmpty() ? 0 : Float.parseFloat(estaturaStr);
+        float peso = pesoStr.isEmpty() ? 0 : Float.parseFloat(pesoStr);
 
-            float estatura = estaturaStr.isEmpty() ? 0 : Float.parseFloat(estaturaStr);
-            float peso = pesoStr.isEmpty() ? 0 : Float.parseFloat(pesoStr);
+        if (estatura == 0 || peso == 0) {
+            mostrarMensaje("Por favor, complete todos los campos");
+            return;
+        }
 
-            Cliente cliente = obtenerClienteSeleccionado();
+        if (clienteSeleccionado == null) {
+            mostrarMensaje("Por favor, seleccione un cliente");
+            return;
+        }
 
-            if (estatura == 0 || peso == 0) {
-                mostrarMensaje("Por favor, complete todos los campos");
-                return;
-            }
-
-            if (cliente == null) {
-                mostrarMensaje("Por favor, seleccione un cliente");
-                return;
-            }
-
-            EstadoFisico estadoFisico = new EstadoFisico(estadoFisicoActual.getId(), estatura, peso, fecha, enfermedades, cliente.getId());
-            this.controller.actualizarEstadoFisico(estadoFisico);
-        });
-
-        this.eliminarButton.setOnClickListener(view -> {
-            confirmDialog(estadoFisicoActual.getId());
-        });
-
+        EstadoFisico estadoFisico = new EstadoFisico(estadoFisicoActual.getId(), estatura, peso, fecha, enfermedades, clienteSeleccionado.getId());
+        this.controller.actualizarEstadoFisico(estadoFisico);
     }
 
     private void getAndSetIntentData() {
@@ -106,16 +116,16 @@ public class VEditarEstadoFisico extends AppCompatActivity {
             pesoInput.getEditText().setText(peso);
             enfermedadesInput.getEditText().setText(enfermedades);
 
-            Cliente cliente = obtenerCliente(clienteId);
-            clienteInput.setText(cliente != null ? cliente.getNombreCompleto() : null, false);
+            clienteSeleccionado = obtenerCliente(clienteId);
+            clienteInput.setText(clienteSeleccionado != null ? clienteSeleccionado.getNombreCompleto() : null, false);
 
-            this.estadoFisicoActual = new EstadoFisico(id, Float.parseFloat(estatura), Float.parseFloat(peso), fecha, enfermedades, clienteId);
+            this.estadoFisicoActual = new EstadoFisico(id, Float.parseFloat(estatura), Float.parseFloat(peso), fecha, enfermedades, clienteSeleccionado.getId());
         } else {
             Toast.makeText(this, "No se encontraron datos", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void confirmDialog(int id) {
+    public void eliminarEstadoFisico(int id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Eliminar estado físico");
         builder.setMessage("¿Estás seguro de que deseas eliminar este estado físico?");
@@ -138,15 +148,6 @@ public class VEditarEstadoFisico extends AppCompatActivity {
     private Cliente obtenerCliente(int clienteId) {
         for (Cliente cliente : listadoClientes) {
             if (cliente.getId() == clienteId) {
-                return cliente;
-            }
-        }
-        return null;
-    }
-
-    private Cliente obtenerClienteSeleccionado() {
-        for (Cliente cliente : listadoClientes) {
-            if (cliente.getNombreCompleto().equals(clienteInput.getText().toString())) {
                 return cliente;
             }
         }

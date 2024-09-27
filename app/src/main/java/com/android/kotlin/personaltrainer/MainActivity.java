@@ -20,14 +20,12 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
-//    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        bottomNavigationView = findViewById(R.id.bottom_navigation);
         drawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.navigation_drawer);
@@ -58,12 +56,6 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.closeDrawers();
             return true;
         });
-
-//        bottomNavigationView.setBackground(null);
-//        bottomNavigationView.setOnItemSelectedListener(item -> {
-//            handleNavigation(item.getItemId());
-//            return true;
-//        });
     }
 
     private void replaceFragment(Fragment fragment) {

@@ -55,7 +55,9 @@ public class EjercicioAdapter extends RecyclerView.Adapter<EjercicioAdapter.Ejer
         Ejercicio ejercicio = this.ejercicioList.get(position);
         holder.nombreEjercicio.setText(ejercicio.getNombre());
         holder.descripcionEjercicio.setText(ejercicio.getDescripcion());
-//        holder.imagenEjercicio.setImageURI(Uri.parse(ejercicio.getImagen()));
+//        if (ejercicio.getImagen() != null) {
+//            holder.imagenEjercicio.setImageURI(Uri.parse(ejercicio.getImagen()));
+//        }
 
         holder.editarButton.setOnClickListener(view -> {
             Intent intent = new Intent(context, VEditarEjercicio.class);

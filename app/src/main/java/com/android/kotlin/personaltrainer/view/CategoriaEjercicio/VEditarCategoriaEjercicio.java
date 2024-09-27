@@ -11,6 +11,7 @@ import com.android.kotlin.personaltrainer.R;
 import com.android.kotlin.personaltrainer.controller.CCategoriaEjercicio;
 import com.android.kotlin.personaltrainer.model.CategoriaEjercicio.CategoriaEjercicio;
 import com.android.kotlin.personaltrainer.utils.ToolbarUtils;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -19,7 +20,7 @@ public class VEditarCategoriaEjercicio extends AppCompatActivity {
     CCategoriaEjercicio controller;
 
     TextInputLayout nombreInput, descripcionInput;
-    FloatingActionButton actualizarButton, eliminarButton;
+    MaterialButton actualizarButton, eliminarButton;
     Toolbar toolbar;
 
     int id;
@@ -29,35 +30,28 @@ public class VEditarCategoriaEjercicio extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editar_categoria_ejercicio);
 
+        initComponents();
+        this.getAndSetIntentData();
+
+        this.actualizarButton.setOnClickListener(view -> {
+            actualizarCategoriaEjercicio();
+        });
+
+        this.eliminarButton.setOnClickListener(view -> {
+            eliminarCategoriaEjercicio(this.id);
+        });
+    }
+
+    public void initComponents() {
         this.controller = new CCategoriaEjercicio(this);
 
         this.nombreInput = findViewById(R.id.nombre_input_edit);
         this.descripcionInput = findViewById(R.id.descripcion_input_edit);
-        this.actualizarButton = findViewById(R.id.fab_actualizar);
-        this.eliminarButton = findViewById(R.id.fab_eliminar);
+        this.actualizarButton = findViewById(R.id.actualizar_button);
+        this.eliminarButton = findViewById(R.id.eliminar_button);
         this.toolbar = findViewById(R.id.toolbar_tipo_ejercicio);
 
         ToolbarUtils.setupToolbar(this, toolbar);
-
-        this.getAndSetIntentData();
-
-        this.actualizarButton.setOnClickListener(view -> {
-            String nombre = nombreInput.getEditText().getText().toString().trim();
-            String descripcion = descripcionInput.getEditText().getText().toString().trim();
-
-            if (nombre.isEmpty() || descripcion.isEmpty()) {
-                mostrarMensaje("Por favor, llene todos los campos");
-                return;
-            }
-
-            CategoriaEjercicio categoriaEjercicio = new CategoriaEjercicio(this.id, nombre, descripcion);
-            this.controller.actualizarCategoriaEjercicio(categoriaEjercicio);
-        });
-
-        this.eliminarButton.setOnClickListener(view -> {
-            confirmDialog(this.id);
-        });
-
     }
 
     public void mostrarMensaje(String mensaje) {
@@ -68,12 +62,10 @@ public class VEditarCategoriaEjercicio extends AppCompatActivity {
         if (getIntent().hasExtra("id") && getIntent().hasExtra("nombre") &&
                 getIntent().hasExtra("descripcion")
         ) {
-            // Getting data from intent
             this.id = Integer.parseInt(getIntent().getStringExtra("id"));
             String nombre = getIntent().getStringExtra("nombre");
             String descripcion = getIntent().getStringExtra("descripcion");
 
-            // Setting intent data
             this.nombreInput.getEditText().setText(nombre);
             this.descripcionInput.getEditText().setText(descripcion);
         } else {
@@ -81,7 +73,20 @@ public class VEditarCategoriaEjercicio extends AppCompatActivity {
         }
     }
 
-    private void confirmDialog(int id) {
+    public void actualizarCategoriaEjercicio() {
+        String nombre = nombreInput.getEditText().getText().toString().trim();
+        String descripcion = descripcionInput.getEditText().getText().toString().trim();
+
+        if (nombre.isEmpty() || descripcion.isEmpty()) {
+            mostrarMensaje("Por favor, llene todos los campos");
+            return;
+        }
+
+        CategoriaEjercicio categoriaEjercicio = new CategoriaEjercicio(this.id, nombre, descripcion);
+        this.controller.actualizarCategoriaEjercicio(categoriaEjercicio);
+    }
+
+    public void eliminarCategoriaEjercicio(int id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Eliminar categoria de ejercicio");
         builder.setMessage("¿Estás seguro de que deseas eliminar esta categoria de ejercicio?");
