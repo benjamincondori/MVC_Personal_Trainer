@@ -2,6 +2,8 @@ package com.android.kotlin.personaltrainer.view.Cliente;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.kotlin.personaltrainer.R;
 import com.android.kotlin.personaltrainer.model.Cliente.Cliente;
+import com.android.kotlin.personaltrainer.utils.UploadImage;
 
+import java.io.File;
 import java.util.List;
 
 public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ClienteViewHolder> {
 
-    private Context context;
+    private final Context context;
     private List<Cliente> clienteList;
 
     public ClienteAdapter(Context context, List<Cliente> clienteList) {
@@ -53,12 +57,14 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ClienteV
     @Override
     public void onBindViewHolder(@NonNull ClienteViewHolder holder, int position) {
         Cliente cliente = this.clienteList.get(position);
-        String nombreCompleto = cliente.getNombre() + " " + cliente.getApellido();
-        holder.nombreCliente.setText(nombreCompleto);
+        holder.nombreCliente.setText(cliente.getNombreCompleto());
         holder.emailCliente.setText(cliente.getEmail());
         holder.telefonoCliente.setText(cliente.getTelefono());
         holder.fechaNacimientoCliente.setText(cliente.getFechaNacimiento());
-//        holder.imagenCliente.setImageURI(Uri.parse(cliente.getFoto()));
+
+        if (cliente.getFoto() != null) {
+            UploadImage.cargarImagen(cliente.getFoto(), holder.imagenCliente, context);
+        }
 
         holder.editarButton.setOnClickListener(view -> {
             Intent intent = new Intent(context, VEditarCliente.class);

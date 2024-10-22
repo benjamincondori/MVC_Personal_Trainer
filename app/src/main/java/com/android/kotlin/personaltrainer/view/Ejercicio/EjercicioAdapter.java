@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.kotlin.personaltrainer.R;
 import com.android.kotlin.personaltrainer.model.Ejercicio.Ejercicio;
+import com.android.kotlin.personaltrainer.utils.UploadImage;
 import com.android.kotlin.personaltrainer.view.CategoriaEjercicio.VEditarCategoriaEjercicio;
 
 import java.util.List;
@@ -55,9 +56,10 @@ public class EjercicioAdapter extends RecyclerView.Adapter<EjercicioAdapter.Ejer
         Ejercicio ejercicio = this.ejercicioList.get(position);
         holder.nombreEjercicio.setText(ejercicio.getNombre());
         holder.descripcionEjercicio.setText(ejercicio.getDescripcion());
-//        if (ejercicio.getImagen() != null) {
-//            holder.imagenEjercicio.setImageURI(Uri.parse(ejercicio.getImagen()));
-//        }
+
+        if (ejercicio.getImagen() != null) {
+            UploadImage.cargarImagen(ejercicio.getImagen(), holder.imagenEjercicio, context);
+        }
 
         holder.editarButton.setOnClickListener(view -> {
             Intent intent = new Intent(context, VEditarEjercicio.class);

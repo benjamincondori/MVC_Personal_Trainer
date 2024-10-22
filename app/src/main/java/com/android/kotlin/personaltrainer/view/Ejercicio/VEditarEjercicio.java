@@ -2,8 +2,10 @@ package com.android.kotlin.personaltrainer.view.Ejercicio;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -23,6 +25,7 @@ import com.android.kotlin.personaltrainer.utils.UploadImage;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.IOException;
 import java.util.List;
 
 public class VEditarEjercicio extends AppCompatActivity {
@@ -40,6 +43,7 @@ public class VEditarEjercicio extends AppCompatActivity {
     MaterialButton btnSelectImage, btnClearImage;
     ImageView mediaPreview;
     String imageToStore;
+    Bitmap bitmapImageSelected;
     ArrayAdapter<CategoriaEjercicio> adapter;
     CategoriaEjercicio categoriaSeleccionada;
 
@@ -112,10 +116,15 @@ public class VEditarEjercicio extends AppCompatActivity {
             return;
         }
 
-//            if (imageToStore == null) {
-//                mostrarMensaje("Por favor, seleccione una imagen");
-//                return;
-//            }
+        if (bitmapImageSelected != null) {
+            // Eliminar la imagen anterior del almacenamiento
+            UploadImage.eliminarImagenFisica(ejercicioActual.getImagen());
+            // Guardar la nueva imagen en el almacenamiento y obtener la ruta
+            imageToStore = UploadImage.saveImageToStorage(bitmapImageSelected, this);
+        } else {
+            // Si no se seleccionó una nueva imagen, mantener la imagen actual
+            imageToStore = ejercicioActual.getImagen();
+        }
 
         Ejercicio ejercicio = new Ejercicio(ejercicioActual.getId(), nombre, descripcion, imageToStore, urlVideo, categoriaSeleccionada.getId());
         this.controller.actualizarEjercicio(ejercicio);
@@ -184,9 +193,23 @@ public class VEditarEjercicio extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && requestCode == SELECT_ACTIVITY) {
-            Uri uri = data.getData();
-            imageToStore = uri.toString();
-            mediaPreview.setImageURI(uri);
+            Uri imagenSeleccionada = data.getData();
+
+            try {
+                // Convierte el Uri en un Bitmap
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagenSeleccionada);
+
+                // Obtén la ruta real de la imagen desde el Uri
+                String rutaImagen = UploadImage.obtenerRutaImagenDesdeUri(imagenSeleccionada, this);
+
+                // Aplica la rotación correcta según los metadatos EXIF
+                bitmapImageSelected = UploadImage.rotarImagenSegunOrientacion(bitmap, rutaImagen);
+
+                // Ahora puedes mostrar el Bitmap corregido en un ImageView o guardarlo
+                mediaPreview.setImageBitmap(bitmapImageSelected);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

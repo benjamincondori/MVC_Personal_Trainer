@@ -347,15 +347,6 @@ public class VDetallePlanEntrenamiento extends AppCompatActivity {
         return "Nota: " + detalleEjercicio;
     }
 
-    private ArrayList<String[]> getBody() {
-        ArrayList<String[]> rows = new ArrayList<>();
-        rows.add(new String[]{"imagen", "Sentadillas", "3", "10", "20", "https://www.youtube.com/watch?v=2tXQbi16EdI"});
-        rows.add(new String[]{"imagen", "Flexiones", "3", "10", "20", "https://www.youtube.com/watch?v=g0z0rqoSmxY"});
-        rows.add(new String[]{"imagen", "Plancha", "3", "10", "20", "https://www.youtube.com/watch?v=8bbE64nuH6Y"});
-        rows.add(new String[]{"imagen", "Abdominales", "3", "10", "20", "https://www.youtube.com/watch?v=8bbE64nuH6Y"});
-        return rows;
-    }
-
     @Override
     public boolean onSupportNavigateUp() {
         getOnBackPressedDispatcher().onBackPressed();

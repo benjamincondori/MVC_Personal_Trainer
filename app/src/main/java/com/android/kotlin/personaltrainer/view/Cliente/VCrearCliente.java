@@ -1,8 +1,14 @@
 package com.android.kotlin.personaltrainer.view.Cliente;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,6 +28,10 @@ import com.android.kotlin.personaltrainer.utils.UploadImage;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 
 public class VCrearCliente extends AppCompatActivity {
@@ -36,6 +46,7 @@ public class VCrearCliente extends AppCompatActivity {
     MaterialButton btnSelectImage, btnClearImage;
     ImageView mediaPreview;
     String imageToStore;
+    Bitmap bitmapImageSelected;
     RadioGroup genderRadioGroup;
 
     String generoSeleccionado;
@@ -107,7 +118,6 @@ public class VCrearCliente extends AppCompatActivity {
         String telefono = telefonoInput.getEditText().getText().toString().trim();
         String fechaNacimiento = fechaNacimientoInput.getEditText().getText().toString().trim();
 
-
         if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || telefono.isEmpty() || fechaNacimiento.isEmpty()) {
             mostrarMensaje("Por favor, llene todos los campos");
             return;
@@ -116,6 +126,11 @@ public class VCrearCliente extends AppCompatActivity {
         if (generoSeleccionado == null) {
             mostrarMensaje("Por favor, seleccione un género");
             return;
+        }
+
+        if (bitmapImageSelected != null) {
+            // Guardar la imagen en el almacenamiento y obtener la ruta
+            imageToStore = UploadImage.saveImageToStorage(bitmapImageSelected, this);
         }
 
         Cliente cliente = new Cliente(nombre, apellido, fechaNacimiento, telefono, email, generoSeleccionado, imageToStore);
@@ -131,9 +146,23 @@ public class VCrearCliente extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && requestCode == SELECT_ACTIVITY) {
-            Uri uri = data.getData();
-            imageToStore = uri.toString();
-            mediaPreview.setImageURI(uri);
+            Uri imagenSeleccionada = data.getData();
+
+            try {
+                // Convierte el Uri en un Bitmap
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagenSeleccionada);
+
+                // Obtén la ruta real de la imagen desde el Uri
+                String rutaImagen = UploadImage.obtenerRutaImagenDesdeUri(imagenSeleccionada, this);
+
+                // Aplica la rotación correcta según los metadatos EXIF
+                bitmapImageSelected = UploadImage.rotarImagenSegunOrientacion(bitmap, rutaImagen);
+
+                // Ahora puedes mostrar el Bitmap corregido en un ImageView o guardarlo
+                mediaPreview.setImageBitmap(bitmapImageSelected);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

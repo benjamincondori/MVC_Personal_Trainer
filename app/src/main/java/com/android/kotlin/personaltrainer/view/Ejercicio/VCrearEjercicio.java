@@ -1,8 +1,10 @@
 package com.android.kotlin.personaltrainer.view.Ejercicio;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -23,12 +25,12 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 
+import java.io.IOException;
 import java.util.List;
 
 public class VCrearEjercicio extends AppCompatActivity {
 
     private final int SELECT_ACTIVITY = 100;
-    private Uri imageUri;
 
     CEjercicio controller;
     List<CategoriaEjercicio> listadoCategorias;
@@ -40,6 +42,7 @@ public class VCrearEjercicio extends AppCompatActivity {
     MaterialButton btnSelectImage, btnClearImage;
     ImageView mediaPreview;
     String imageToStore;
+    Bitmap bitmapImageSelected;
     ArrayAdapter<CategoriaEjercicio> adapter;
     CategoriaEjercicio categoriaSeleccionada;
 
@@ -106,12 +109,10 @@ public class VCrearEjercicio extends AppCompatActivity {
             return;
         }
 
-//            Uri imageStore = null;
-//            if (imageUri != null) {
-//                UploadImage.saveImage(this, imageUri, 2L);
-//                imageStore = UploadImage.getImageUri(this, 2L);
-//                mostrarMensaje(imageStore.toString());
-//            }
+        if (bitmapImageSelected != null) {
+            // Guardar la imagen en el almacenamiento y obtener la ruta
+            imageToStore = UploadImage.saveImageToStorage(bitmapImageSelected, this);
+        }
 
         Ejercicio ejercicio = new Ejercicio(nombre, descripcion, imageToStore, urlVideo, categoriaSeleccionada.getId());
         this.controller.guardarEjercicio(ejercicio);
@@ -130,9 +131,23 @@ public class VCrearEjercicio extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && requestCode == SELECT_ACTIVITY) {
-            imageUri = data.getData();
-            imageToStore = imageUri.toString();
-            mediaPreview.setImageURI(imageUri);
+            Uri imagenSeleccionada = data.getData();
+
+            try {
+                // Convierte el Uri en un Bitmap
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagenSeleccionada);
+
+                // Obtén la ruta real de la imagen desde el Uri
+                String rutaImagen = UploadImage.obtenerRutaImagenDesdeUri(imagenSeleccionada, this);
+
+                // Aplica la rotación correcta según los metadatos EXIF
+                bitmapImageSelected = UploadImage.rotarImagenSegunOrientacion(bitmap, rutaImagen);
+
+                // Ahora puedes mostrar el Bitmap corregido en un ImageView o guardarlo
+                mediaPreview.setImageBitmap(bitmapImageSelected);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

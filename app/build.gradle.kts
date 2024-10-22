@@ -46,4 +46,7 @@ dependencies {
 
     // Add the iText library
     implementation(libs.itextpdf)
+
+    // Add Glide library
+    implementation(libs.glide)
 }

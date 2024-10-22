@@ -22,6 +22,7 @@ import java.util.List;
 public class VCliente extends Fragment {
 
     CCliente controller;
+
     FloatingActionButton fab;
     ClienteAdapter listAdapter;
     RecyclerView recyclerView;
